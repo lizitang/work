@@ -1,0 +1,66 @@
+1. 后台生成唯一的session id
+GET http://192.168.2.246:3000/session
+
+Response: 
+{
+	id: "201704270001",
+	timestamp: "20170427"
+}
+
+2.获取某个session的全部对话
+GET http://192.168.2.246:3000/qa?session_id=201704270001
+
+3.获取某个session按照顺序的对话
+GET http://192.168.2.246:3000/qa?session_id=201704270001&sequence=2
+
+Response:
+[
+	{
+		session_id: "201704270001",
+		sequence: 2,
+		timestamp: "",
+		user_question: {
+			content: "恩恩",
+			act: "accept",
+			refined_act: ""
+		},
+		robot_answer: {
+			content: "贝玲妃反孔精英毛孔清透随心面膜，也叫爆珠面膜，使用时挤压蓝色爆珠按钮，精华液就会渗透到面膜上，新颖好玩哟~",
+		refined_content: "",
+		act: "request+product(category=面膜)",
+		refined_act: ""
+		}
+	}
+]
+
+4.保存某个session按照顺序的对话
+POST http://192.168.2.246:3000/qa
+POST DATA:
+[
+	{
+		session_id: "201704270001",
+		sequence: 2,
+		timestamp: "",
+		user_question: {
+			content: "恩恩",
+			act: "accept",
+			refined_act: ""
+		},
+		robot_answer: {
+			content: "贝玲妃反孔精英毛孔清透随心面膜，也叫爆珠面膜，使用时挤压蓝色爆珠按钮，精华液就会渗透到面膜上，新颖好玩哟~",
+		refined_content: "",
+		act: "request+product(category=面膜)",
+		refined_act: ""
+		}
+	}
+]
+
+5.获取某个用户输入的NLU ACT
+GET  http://192.168.2.246:3000/act?text=我想买个面膜，有什么推荐吗？
+Response:
+[
+	{
+		text: "我想买个面膜，有什么推荐吗？",
+		act: "request+product(category=面膜)"
+	}
+]
