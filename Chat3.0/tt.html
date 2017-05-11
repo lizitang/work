@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    　　<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    　　<meta charset="utf-8">
+    　　<title>点击按钮文字变成input框，点击保存变成文字</title>
+    　　<style type="text/css">
+    　　table{ text-align: center; font-size: 14px;}
+    　　table>thead>tr>th{ font-weight: normal;}
+    　　.text-right{ padding-right:73px; text-align: right;}
+    　　.text{ width: 50px; height: 30px; border: 1px solid #ddd; text-align: center;}
+    　　</style>
+    　　<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+　　<table>
+    　　　　<thead>
+　　　　　　<tr>
+    　　　　　　　　<th width="400">品名</th>
+    　　　　　　　　<th width="200">件数</th>
+    　　　　　　</tr>
+　　　　</thead>
+    　　　　<tbody>
+　　　　　　<tr height="50">
+    　　　　　　　　<td>iPhone6s</td>
+    　　　　　　　　<td class="edit">2</td>
+    　　　　　　</tr>
+　　　　　　<tr height="50">
+    　　　　　　　　<td>小米5</td>
+    　　　　　　　　<td class="edit">5</td>
+    　　　　　　</tr>
+　　　　</tbody>
+    　　　　<tfoot>
+　　　　　　<tr>
+    　　　　　　　　<td colspan="2" class="text-right">
+    　　　　　　　　　　<button type="button" class="btn" onclick="change(this)">修改</button>
+    　　　　　　　　</td>
+    　　　　　　</tr>
+　　　　</tfoot>
+    　　</table>
+<script type="text/javascript">
+    function change(obj){
+        var xg=$(obj).html();
+        if(xg=='修改'){
+            $('.edit').each(function(){
+                var old=$(this).html();
+                $(this).html("<input type='text' name='editname' class='text' value="+old+" >");
+            })
+            $(obj).html('保存');
+        }else if(xg=='保存'){
+            $('input[name=editname]').each(function(){
+                var old=$(this).html();
+                var newfont=$(this).parent('td').parent('tr').children().find('input').val();
+                $(this).parent('td').html(newfont);
+            })
+            $(obj).html('修改');
+        }
+    }
+</script>
+</body>
+</html>
