@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>chat对话</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -13,12 +13,18 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-sm-5 col-md-5 col-lg-5 content-chat">
+		<div class="col-sm-4 col-md-4 col-lg-4 content-chat">
 			<div class="panel">
 				<!--Heading-->
 				<div class="panel-heading">
 					<div class="panel-control">
 							<span id="clear-chat" class="reset">Reset</span>
+					</div>
+					<div class="panel-control">
+						<span id="inputid" class="reset">Send</span>
+					</div>
+					<div class="panel-control">
+						<input type="text" id="idcontent" placeholder="请输入个人id读取聊天记录">
 					</div>
 					<h3 class="panel-title">Chat</h3>
 				</div>
@@ -28,34 +34,6 @@
 					<div class="nano has-scrollbar" style="height:600px">
 						<div class="nano-content pad-all" tabindex="0" style="right: -17px;">
 							<ul class="list-unstyled media-block" id="chat_container">
-								<!--<li class="mar-btm">
-                                    <div class="media-left">
-                                        <img src="img/avatar1.png" class="img-circle img-sm" alt="Profile Picture">
-                                    </div>
-                                    <div class="media-body pad-hor">
-                                        <div class="speech">
-                                            <a href="#" class="media-heading">John Doe</a>
-                                            <p>Hello Lucy, how can I help you today ?</p>
-                                            <p class="speech-time">
-                                            <i class="fa fa-clock-o fa-fw"></i>09:23AM
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="mar-btm">
-                                    <div class="media-right">
-                                        <img src="img/avatar2.png" class="img-circle img-sm" alt="Profile Picture">
-                                    </div>
-                                    <div class="media-body pad-hor speech-right">
-                                        <div class="speech">
-                                            <a href="#" class="media-heading">Lucy Doe</a>
-                                            <p>Hi, I want to buy a new shoes.</p>
-                                            <p class="speech-time">
-                                                <i class="fa fa-clock-o fa-fw"></i> 09:23AM
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li> -->
 							</ul>
 						</div>
 						<div class="nano-pane">
@@ -85,31 +63,6 @@
 			<div   class="nano has-scrollbar" style="height:600px">
 				<div  class="content-log-window" >
 					<div id="logbody" class="bot-content">
-						<!--<div class="bot-conversation">
-							<div id="bot_conversation">Bot对话：</div>
-							<div>
-								<div>
-									<span>1.NLG是否合适</span>
-									<button type="button" class="btn btn-success">是</button>
-									<button type="button" class="btn btn-danger">否</button>
-								</div>
-								<input type="text" placeholder="请输入理想的回复或建议"/>
-								<div>
-									<div>
-										2.Act内容识别显示，格式如：
-									</div>
-									<span class="bot-act canname" >offer(brand=美即，product=草本精华)</span>
-									<span class="alter-btn modify" onclick="change(this)">修改</span>
-									<span class="alter-btn bttn">X</span>
-								</div>
-							</div>
-						</div>
-						<div class="user-conversation">
-							<div>User对话：</div>
-							<div>Act内容识别显示，格式如：</div>
-							<span class="user-request canname">&lt;!&ndash;request+price(category=面膜)&ndash;&gt;</span>
-							<span class="alter-btn modify" onclick="change(this)">修改</span>
-						</div>-->
 					</div>
 				</div>
 				<div class="nano-pane">
@@ -117,16 +70,28 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="col-sm-3 col-md-3 col-lg-3 content-alter" style="background:#fff;height:703px;">
+		<div class="col-sm-2 col-md-2 col-lg-2 content-alter" style="background:#fff;height:703px;">
 			<div class="panel-heading">
 				<h3 class="panel-title">修改对比</h3>
 			</div>
-			<div class="nano has-scrollbar" style="height:600px">
+			<div class="nano has-scrollbar" id="list3" style="height:600px">
 				<div class="bot-content">
 					<ul class='conversation-alter'>
 					</ul>
 				</div>
+				<div class="nano-pane">
+					<div class="nano-slider" style="height: 141px; transform: translate(0px, 0px);"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2 col-md-2 col-lg-2 content-tracking" style="background:#fff;height:703px;">
+			<div class="panel-heading">
+				<h3 class="panel-title">frame tracking</h3>
+			</div>
+			<div class="nano has-scrollbar" id = "list4" style="height:600px">
+				<ul class="iframe">
+
+				</ul>
 				<div class="nano-pane">
 					<div class="nano-slider" style="height: 141px; transform: translate(0px, 0px);"></div>
 				</div>

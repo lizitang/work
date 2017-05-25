@@ -9,6 +9,9 @@ var express = require('express'),// express
 
 var shortid = require('shortid'); // short id generator
 
+const url = require('url'); // url parser
+var http = require('http'); // http for request
+
 /* set body paser of POST */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,6 +37,33 @@ var logger = function (req, res, next) {
 
 /* use logger for APP */
 app.use(logger);
+
+/* router for cross origin service request */
+app.get('/proxy', function (req, res) {
+  var target = req.query.target;
+  if (target) {
+    var proxyURL = url.parse(target);
+    // create request parameters
+    var options = {
+      host: proxyURL.hostname,
+      port: proxyURL.port,
+      path: proxyURL.path,
+      method: 'GET'
+    };
+    // request url
+    http.request(options, function(proxyRes) {
+      proxyRes.setEncoding('utf8');
+      proxyRes.on('data', function (chunk) {
+        res.send(chunk);
+      });
+    }).on('error', function(e) {
+        res.status(500).send(e);
+    }).end();
+  }else {
+    // return empty
+    res.json({});
+  }
+});
 
 /* router for session id */
 app.get('/session', function (req, res) {

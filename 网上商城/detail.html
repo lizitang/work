@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/detail.js"></script>
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="css/skin/skin-0.css" type="text/css" id="cssfile" />
+    <link rel="stylesheet" href="css/detail.css"/>
+</head>
+<body>
+<div id="header">
+    <div class="wrap">
+        <a class="logo" href="#"><img src="images/logo.gif" alt="JaneShop"/></a>
+        <div class="search">
+            <input type="text" value="请输入商品名称"/>
+        </div>
+        <ul id="skin">
+            <li id="skin-0" class="selected" title="蓝色"> </li>
+            <li id="skin-1" title="紫色"> </li>
+            <li id="skin-2" title="红色"> </li>
+            <li id="skin-3" title="天蓝色"> </li>
+            <li id="skin-4" title="橙色"> </li>
+            <li id="skin-5" title="淡绿色"> </li>
+        </ul>
+        <div id="nav">
+            <ul>
+                <li><a href="7-1网上商城.html" title="首 页">首 页</a></li>
+                <li><a href="#">品 牌</a></li>
+                <li><a href="#">女 装</a></li>
+                <li><a href="#">男 装</a></li>
+                <li><a href="#">鞋包配饰</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="wrap">
+        <div id="classification">
+            <h2>商品分类</h2>
+            <div class="classification-content">
+                <h3>推荐品牌</h3>
+                <ul>
+                    <li><a href="#">耐克</a></li>
+                    <li><a href="#" class="hot">阿迪达斯<span class="hot-img"></span></a></li>
+                    <li><a href="#">达芙妮</a></li>
+                    <li><a href="#">李宁</a></li>
+                    <li><a href="#">安踏</a></li>
+                    <li><a href="#">奥康</a></li>
+                    <li><a href="#" class="hot">骆驼<span class="hot-img"></span></a></li>
+                    <li><a href="#">特步</a></li>
+                </ul>
+                <br/>
+                <h3>女装</h3>
+                <ul>
+
+                    <li><a href="#">呢大衣</a></li>
+                    <li><a href="#">T恤</a></li>
+                    <li><a href="#">羽绒</a></li>
+                    <li><a href="#">衬衫</a></li>
+                    <li><a href="#">羊绒衫</a></li>
+                    <li><a href="#">针织</a></li>
+                    <li><a href="#">连衣裙</a></li>
+                    <li><a href="#">皮外套</a></li>
+                </ul>
+                <br/>
+                <h3>男装</h3>
+                <ul>
+                    <li><a href="#">耐克</a></li>
+                    <li><a href="#">阿迪达斯</a></li>
+                    <li><a href="#">达芙妮</a></li>
+                    <li><a href="#">李宁</a></li>
+                    <li><a href="#">安踏</a></li>
+                    <li><a href="#">奥康</a></li>
+                    <li><a href="#">骆驼</a></li>
+                    <li><a href="#">特步</a></li>
+                </ul>
+                <br/>
+                <h3>鞋包配饰</h3>
+                <ul>
+
+                    <li><a href="#">呢大衣</a></li>
+                    <li><a href="#">T恤</a></li>
+                    <li><a href="#">羽绒</a></li>
+                    <li><a href="#">衬衫</a></li>
+                    <li><a href="#">羊绒衫</a></li>
+                    <li><a href="#">针织</a></li>
+                    <li><a href="#">连衣裙</a></li>
+                    <li><a href="#">皮外套</a></li>
+                </ul>
+                <br/>
+            </div>
+
+
+        </div>
+        <div id="goods-img">
+            <div class="small-pic">
+                <div class="drag"></div>
+                <img src="images/pro_img/blue_one_small.jpg" alt=""/>
+            </div>
+            <div class="big-pic">
+                <img src="images/pro_img/blue_one_big.jpg" alt=""/>
+            </div>
+            <span class="clear-img">
+                <a href="images/pro_img/blue_one_big.jpg">
+                    <img src="images/look.gif" alt="点击查看大图片"/>
+                </a>
+            </span>
+            <ul class="imgList">
+                <li class="imgList_blue"><img src="images/pro_img/blue_one.jpg" alt=""/></li>
+                <li class="imgList_blue"><img src="images/pro_img/blue_three.jpg" alt=""/></li>
+                <li class="imgList_blue"><img src="images/pro_img/blue_two.jpg" alt=""/></li>
+                <li class="imgList_green hide"><img src="images/pro_img/green_one.jpg" alt=""/></li>
+                <li class="imgList_green hide"><img src="images/pro_img/green_two.jpg" alt=""/></li>
+                <li class="imgList_yellow hide"><img src="images/pro_img/yellow_one.jpg" alt=""/></li>
+                <li class="imgList_yellow hide"><img src="images/pro_img/yellow_two.jpg" alt=""/></li>
+                <li class="imgList_yellow hide"><img src="images/pro_img/yellow_three.jpg" alt=""/></li>
+            </ul>
+            <div id="product-intro">
+                <ul class="product-tab">
+                    <li class="selected">产品属性</li>
+                    <li>产品尺码表</li>
+                    <li>产品介绍</li>
+                </ul>
+                <div class="product-text">
+                    <div class="selected">沿用风靡百年的经典全棉牛津纺面料，通过领先的液氨整理技术，使面料的抗皱性能更上一层。延续简约、舒适、健康设计理念，特推出免烫、易打理的精细免烫牛津纺长袖衬衫系列。</div>
+                    <div>
+                        来自新疆无污染的生态棉花，采用紧密纺精梳棉纱，单经双纬的织造组织，造就了颗粒饱满、朴实无华、温润细腻的经典牛津纺，易洗快干、手感丰软、吸湿性好。设计师遵循布料完美肌理，立体剪裁，曲摆的现代人性化裁减，相得益彰，浑然天成。
+                    </div>
+                    <div>
+                        世界权威德国科德宝的衬和英国高士缝纫线使成衣领型自然舒展、永不变形，缝线部位平服工整、牢固耐磨；人性化的4片式后背打褶结构设计提供更舒适的活动空间；领尖扣的领型设计戴或不戴领带风格炯同、瞬间呈现；醇正天然设计，只为彰显自然荣耀。
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="goods-detail">
+            <h4>免烫高支棉条纹衬衣</h4>
+            <ul class="detail">
+                <li>
+                    全新精品高支棉衬衫再次提升品质，精选100%新疆长绒棉织造而成，平整度好，短绒少； 80-100高支双股经纬交织，带来无与伦比的舒适享受；而且面料反光效果好，具有漂亮的光泽，质感上佳，有利于免烫效果的维持！
+                </li>
+                <li>
+                    <span>价　　格：<span class="price">379.00</span>元</span>
+                </li>
+                <li><span>促　　销：<span class="big-price">200.00</span>元</span></li>
+                <li class="color-change">
+                    <span>颜　　色：</span><span class="color-text">未选择</span>
+                    <ul>
+                        <li><img src="images/pro_img/blue.jpg" alt="蓝白"/></li>
+                        <li><img src="images/pro_img/yellow.jpg" alt="黄白"/></li>
+                        <li><img src="images/pro_img/green.jpg" alt="粉绿"/></li>
+                    </ul>
+                </li>
+                <li class="pro-size">
+                    <span>尺　　寸：</span><span class="pro-size-num">未选择</span>
+                    <ul>
+                        <li>S</li>
+                        <li>L</li>
+                        <li>SL</li>
+                        <li>LL</li>
+                    </ul>
+                </li>
+                <li class="pro-num">
+                    <span>数　　量：</span>
+                    <div>
+                        <select name="num" id="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </li>
+                <li><span>总　　计：<span class="sum-price">200</span>元</span></li>
+            </ul>
+            <div class="pro-score">
+                <span>给商品评分：</span>
+                <ul class="rating">
+                    <li><a href="#" title="1">1</a></li>
+                    <li><a href="#" title="2">2</a></li>
+                    <li><a href="#" title="3">3</a></li>
+                    <li><a href="#" title="4">4</a></li>
+                    <li><a href="#" title="5">5</a></li>
+                </ul>
+            </div>
+            <div class="cart"><a href="#"><img src="images/btn_cart.png" alt="放入购物车"/></a></div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="wrap">
+        <span>Copyright &copy; 2009 - 2012 JaneShop Inc.</span>
+    </div>
+</div>
+</body>
+</html>

@@ -174,6 +174,7 @@ router.put("/",function(req, res) {
       if (!err) {
       // handle result
         if(result){
+          console.log(req.body);
           result.user_question.refined_act = req.body.user_question.refined_act || result.user_question.refined_act;
           result.robot_answer.refined_content = req.body.robot_answer.refined_content || result.robot_answer.refined_content;
           result.robot_answer.refined_act = req.body.robot_answer.refined_act || result.robot_answer.refined_act;

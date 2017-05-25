@@ -131,8 +131,8 @@
  		display: inline-block;
  		border-radius: 0;
  		padding: 6px 10px;
+		max-width: 400px;
  	}
- 	
  	.speech img {
  		max-height: 140px;
  		max-width: 140px;
@@ -310,9 +310,12 @@
 	.no{
 		background: #f00;
 	}
-	.content-alter{
+	.content-alter,.content-tracking{
 		font-size:14px;
 		margin-left:15px;
+	}
+	.content-alter .conversation-alter{
+		font-size: 12px;
 	}
 	.alter{
 		padding:1px;
@@ -329,8 +332,28 @@
 		position: absolute;
 		right: -17px;
 	}
-	.content-log,.content-alter{
+	.content-log,.content-alter,.content-tracking{
 		overflow: hidden;
+	}
+	.panel-control input{
+		border: 1px solid #e9e9e9;
+		padding: 2px 5px;
+		position: absolute;
+		top: 20px;
+		right: -7px;
+		color: #555;
+	}
+	::-webkit-input-placeholder { /* WebKit browsers */
+		color:#999;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		color:#999;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+		color:#999;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+		color:#999;
 	}
 
 
