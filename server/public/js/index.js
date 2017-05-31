@@ -30,6 +30,7 @@ userId = (userId === void 0 || userId == "null")? '100':userId;
     var timeStamp;
 //save sessionid to sessionStorage
 
+var frames_length = 0;
 // when DOM is ready
 $(document).ready(function(){
 
@@ -94,10 +95,23 @@ $(document).ready(function(){
                 var useract,userner,useractnew,usernernew;
                 for(var i = 0;i<data.result.length;i++){
                     content = answerFromCustomer(data.result[i].user_question.content, userName);
-                    appendContent(content);
+                    // appendContent(content);
+                    chatContainer.append(content);
+                    var h = parseInt($("#chat_container").css("height"))
+                    $(".bot-content").css({"height":h+400+"px"})
+                    $(".conversation-alter").css({"height":h+400+"px"})
+                    $(".iframe").css({"height":h+400+"px"})
+                    scrolled=scrolled+300;
+                    scrollContainer[0].scrollTop=scrolled
                     content = answerFromBot(data.result[i].robot_answer.content, BOT_NAME);
                     console.log(content);
-                    appendContent(content);
+                    // appendContent(content);a
+                    chatContainer.append(content);
+                    $(".bot-content").css({"height":h+400+"px"})
+                    $(".conversation-alter").css({"height":h+400+"px"})
+                    $(".iframe").css({"height":h+400+"px"})
+                    scrolled=scrolled+300;
+                    scrollContainer[0].scrollTop=scrolled
                     //生成第二列
                     appendlist2()
                     $($(".userMsgs")[i]).attr("seq",i+1);
@@ -114,7 +128,7 @@ $(document).ready(function(){
                             appendlist3()
                             $(".user-alter .user-alter-act").last().find(".alter-after").css({"color":"#31cbf1"})
                             $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
-                            $(".user-alter .user-alter-act").last().find(".sq").html(indx);
+                            $(".user-alter .user-alter-act").last().find(".sq").html(i+1);
                             $(".user-alter .user-alter-act").last().find(".sq").css("opacity","0");
                             $(".conversation-alter").find(".user-alter").last().find(".sign").html("ACT:")
                             $(".conversation-alter").find(".user-alter").last().find(".alter-before").html(useract)
@@ -132,7 +146,7 @@ $(document).ready(function(){
                             //生成第三列
                             appendlist3()
                             $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
-                            $(".user-alter .user-alter-act").last().find(".sq").html(indx);
+                            $(".user-alter .user-alter-act").last().find(".sq").html(i+1);
                             $(".user-alter .user-alter-act").last().find(".sq").css("opacity","0");
                             $(".conversation-alter").find(".user-alter").last().find(".sign").html("NER:")
                             $(".conversation-alter").find(".user-alter").last().find(".alter-before").html(userner)
@@ -149,7 +163,7 @@ $(document).ready(function(){
                         appendlist3()
                         $(".user-alter .user-alter-act").last().find(".alter-after").css({"color":"red"})
                         $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
-                        $(".user-alter .user-alter-act").last().find(".sq").html(indx);
+                        $(".user-alter .user-alter-act").last().find(".sq").html(i+1);
                         $(".user-alter .user-alter-act").last().find(".sq").css("opacity","0");
                         $(".conversation-alter").find(".user-alter").last().find(".sign").html("Act:")
                         $(".conversation-alter").find(".user-alter").last().find(".alter-before").html(data.result[i].robot_answer.act)
@@ -164,11 +178,14 @@ $(document).ready(function(){
                         //生成第三列
                         appendlist3()
                         $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
-                        $(".user-alter .user-alter-act").last().find(".sq").html(indx);
+                        $(".user-alter .user-alter-act").last().find(".sq").html(i+1);
                         $(".user-alter .user-alter-act").last().find(".sq").css("opacity","0");
                         $(".conversation-alter").find(".user-alter").last().find(".sign").html("NLG:")
                         $(".conversation-alter").find(".user-alter").last().find(".alter-before").html(data.result[i].robot_answer.content)
-                        $(".conversation-alter").find(".user-alter").last().find(".alter-after").last().html(data.result[i].robot_answer.refined_content)
+                        // $(".conversation-alter").find(".user-alter").last().find(".alter-after").last().html(data.result[i].robot_answer.refined_content)
+                        $(".conversation-alter").find(".user-alter").last().find(".alter-after").last().html("已修改!请在后台读取修改结果^_^");
+                        $(".conversation-alter").find(".sign").next().last().html("");
+                        $(".conversation-alter").find(".bf").last().remove();
                     }else{
                         $($(".bot-nlg")[i]).html(data.result[i].robot_answer.content);
                     }
@@ -177,16 +194,23 @@ $(document).ready(function(){
             }
         });
     }
+    console.log($(window).height())
+    $("#demo-chat-body .has-scrollbar").height($(window).height()-150)
+    $(".content-log").height($(window).height()-100)
+    $(".content-alter").height($(window).height()-100)
+    $(".content-tracking").height($(window).height()-100)
     //刷新页面读取查看cookie中是否有值
     if($.cookie('session_id')!=null){
         sessionID = $.cookie('session_id')
         //将cookie中id返给后台获取聊天记录
         creatrecord(sessionID)
-        //获取第一列高度给第三列
-        setTimeout(function () {
-            $(".conversation-alter").css({"height":$("#chat_container").css("height")})
-        },50)
-
+        //获取第一列高度给第二三和四列
+        // setTimeout(function () {
+        //     var hh = parseInt($("#chat_container").css("height"))
+        //     $(".bot-content").css({"height":hh+100+"px"})
+        //     $(".conversation-alter").css({"height":hh+100+"px"})
+        //     $(".iframe").css({"height":hh+100+"px"})
+        // },50)
     }else{
         createID();
     }
@@ -209,8 +233,8 @@ $(document).ready(function(){
         //append botconversation
         var botHtml='<div class="bot-conversation" style="padding:0;width:100%;">'+
             '<div>'+
-            '<span class = "aa">NLG:</span>'+
-            '<span class="bot-nlg canname"><!--request+price(category=面膜)--></span>'+
+            '<span class = "aa" style="display:inline-block;position: absolute;top: 0;">NLG:</span>'+
+            '<span class="bot-nlg canname" style="display:inline-block;margin-left:35px;width: 75%;"><!--request+price(category=面膜)--></span>'+
             '<span class="alter-btn modify cc" style="margin-right:17px;" onclick="change(this)">修改</span>'+
             '</div>'+
             '<div style="margin-top:10px;">'+
@@ -267,6 +291,10 @@ $(document).ready(function(){
     var indx=0;
     //点击发送
     $("button[type='submit']").click(function(event){
+        if($("#idcontent2").val()==""){
+            alert("userid不能为空！")
+            return false;
+        }
         //mark sequence
         indx++;
         // get user msg
@@ -290,9 +318,7 @@ $(document).ready(function(){
         $($(".userMsgs").last()[0]).attr("seq",indx);
         $($(".bot-conversation").last()[0]).attr("seq",indx);
 
-        appendlist4();
-        $(".iframeli").last().find(".activeframe").html(actframe);
-        $(".iframeli").last().find(".frames").html(frames);
+
         //save one sequence conversaion
         function test(){
             var requestURL2 = "qa";
@@ -329,13 +355,30 @@ $(document).ready(function(){
                     console.log(data);
                 }
             });
-            if(act0!=undefined || lost_connection){
-                clearInterval(waitact0)
-            }
         }
-        var waitact0 = window.setInterval(function(){
-            test();}, 500);
+        setTimeout(function(){
+            test()
+            appendlist4();
+            $(".iframeli").last().find(".activeframe").html(actframe);
+            // $(".iframeli").last().find(".frames").html(frames);
+            for(var i=0;i<frames_length;i++){
+                $(".iframes").last().append('<p style = "margin: 0;"><p class="framesid" style = "margin: 0;">1</p><p class="frame"  style = "margin: 0;"></p></p>');
+                $(".framesid").last().html(i+":")
+                $(".frame").last().html(JSON.stringify(frames[i]));
+                if(i==actframe){
+                    $(".frame").last().addClass("text-primary")
+                }
+            }
+            ;}, 500);
         $(".conversation-alter").css({"height":$("#chat_container").css("height")})
+        //获取第一列高度给第三和四列
+        // setTimeout(function () {
+        //     var hhh = parseInt($("#chat_container").css("height"))
+        //     console.log(($("#chat_container").css("height")))
+        //     $(".bot-content").css({"height":hhh+100+"px"})
+        //     $(".conversation-alter").css({"height":hhh+100+"px"})
+        //     $(".iframe").css({"height":hhh+100+"px"})
+        // },200)
         // avoid fresh
         return false;
     });
@@ -345,7 +388,16 @@ $(document).ready(function(){
         chatContainer.append(content);
         scrolled=scrolled+300;
         // scroll to bottom
-        scrollContainer.animate({scrollTop: scrolled}, 0);
+        scrollContainer.animate({scrollTop: scrolled},200,function(){
+            //获取第一列高度给第三和四列
+            var hhh = parseInt($("#chat_container").css("height"))
+            console.log(($("#chat_container").css("height")))
+            $(".bot-content").css({"height":hhh+100+"px"})
+            $(".conversation-alter").css({"height":hhh+100+"px"})
+            $(".iframe").css({"height":hhh+100+"px"})
+            $(".content-log .has-scrollbar").scrollTop(hhh);
+        });
+        // scrollContainer[0].scrollTop=scrolled
         return true;
     };
 
@@ -374,7 +426,7 @@ $(document).ready(function(){
         //最后给的链接返回用户信息获取机器人信息
             setTimeout(function(){
                 ner0 = JSON.parse(ner0);
-                var text1=JSON.stringify({"act":act0,"ner":ner0,"text":userMsg});
+                var text1=JSON.stringify({"act":act0,"ner":ner0,"text":userMsg,"uid":$("#idcontent2").val()});
                 console.log("?"+text1)
                 var requestURL6 ='http://192.168.2.211:9900/sales_bot?text='+encodeURIComponent(text1);
                 var url6 ="http://localhost:8089/proxy?target=" + encodeURIComponent(requestURL6);
@@ -403,6 +455,18 @@ $(document).ready(function(){
                         frames=data.frames;
                         console.log(actframe);
                         console.log(frames);
+                        function getJsonLength(jsonData){
+
+                            var jsonLength = 0;
+
+                            for(var item in jsonData){
+
+                                jsonLength++;
+
+                            }
+                            return jsonLength;
+                        }
+                        frames_length=getJsonLength(frames);
                         // whether bot has sent response
                         var hasResponse = false;
                         if(answer !== void 0){
@@ -428,21 +492,22 @@ $(document).ready(function(){
 
     };
 });
-function appendlist4(){
-    var framelist= '<li class="iframeli">'+
-                        '<div>'+
-                            '<span >activeframe:</span>'+
-                            '<span class="activeframe"></span>'+
-                        '</div>'+
-                        '<div>'+
-                            '<span >frames:</span>'+
-                            '<span class="frames"></span>'+
-                        '</div>'+
-                  '</li>';
-    $(".iframe").append(framelist);
-    $(".iframeli").last().css({"position":"absolute","top":$('.speech-right').last()[0].offsetTop});
 
-}
+    function appendlist4(){
+        var framelist= '<li class="iframeli" style="width:100%;height:200px;">'+
+            '<div>'+
+            '<span >activeframe:</span>'+
+            '<span class="activeframe"></span>'+
+            '</div>'+
+            '<div class="frames" style="word-break:break-all;width:100%;height:180px;overflow-y:auto;overflow-x: hidden;z-index:1000;cursor:pointer;">'+
+            '<p class="iframes" style="display:none;height:auto;">frames:</p >'+
+            '<div>'+
+            '<p class="flip"  style="border-radius:5px;" onclick="flipobj(this);">点击这里查看更多!</p >'+
+            '</li>';
+        ;
+        $(".iframe").append(framelist);
+        $(".iframeli").last().css({"position":"absolute","top":$('.speech-right').last()[0].offsetTop});
+    }
 // assembe html tag for bot answer
 function answerFromBot(/* string msg to sentd*/msg, /* bot name */botName){
     // get current date
@@ -491,15 +556,19 @@ function formatAMPM(/* Date Object */date) {
     function appendlist3(){
         var altercontent='<li class="user-alter" style="padding: 9px 9px;">'+
             '<div class="user-alter-act">'+
-            '<div>'+
+            '<div class="bf">'+
             '<span class="sign"></span><span>before：</span><span class="alter-before"></span><span class="sq"></span>'+
             '</div>'+
-            '<div>'+
+            '<div class="af">'+
             '<span class="sign"></span><span>after：</span><span class="alter-after"></span>'+
             '</div>'+
             '</div>'+
             '</li>';
             $(".conversation-alter").last().append(altercontent);
+    }
+    function flipobj(obj){
+        $(obj).parent().siblings(".iframes").slideToggle("slow");
+
     }
     var prevalue,sign,lock2 = "open",liTop;
     function change(obj){
@@ -543,7 +612,12 @@ function formatAMPM(/* Date Object */date) {
 
                     //修改第i块内容
                     if(prevalue!=newtxt){
-                        $($(".conversation-alter").children()[i]).find(".alter-after").html(newtxt)
+                        $($(".conversation-alter").children()[i]).find(".alter-after").html(newtxt);
+                        if(sign == "NLG:"){
+                            $($(".conversation-alter").children()[i]).find(".alter-after").html("已修改!请在后台读取修改结果^_^");
+                            $($(".conversation-alter").children()[i]).find(".sign").next().html("");
+                            $($(".conversation-alter").children()[i]).find(".bf").remove();
+                        }
                     }
                     //删除第i块
                     if($($(".conversation-alter").children()[i]).find(".alter-before").html() == $($(".conversation-alter").children()[i]).find(".alter-after").html()){
@@ -565,6 +639,11 @@ function formatAMPM(/* Date Object */date) {
             $(".user-alter .user-alter-act").last().find(".sign").html(sign);
             $(".user-alter .user-alter-act").last().find(".alter-before").html(prevalue);
             $(".user-alter .user-alter-act").last().find(".alter-after").html(newtxt);
+            if(sign == "NLG:"){
+                $(".user-alter .user-alter-act").last().find(".alter-after").html("已修改!请在后台读取修改结果^_^");
+                $(".user-alter .user-alter-act").last().find(".sign").next().html("");
+                $(".user-alter .user-alter-act").last().find(".bf").remove();
+            }
         }
         var seq;
             seq=$($(obj).parent().parent()[0]).attr("seq")

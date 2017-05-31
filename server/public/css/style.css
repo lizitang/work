@@ -52,11 +52,15 @@
  	}
 
  	.panel-control {
+		width: 55px;
  		height: 100%;
  		position: relative;
  		float: right;
- 		padding: 0px 15px;
+ 		padding: 0px 5px;
  	}
+	.haveinput{
+		width: 200px;
+	}
 
  	.panel-title {
  		font-weight: normal;
@@ -326,7 +330,7 @@
 	.request{
 		color:deepskyblue;
 	}
-	.content-log .has-scrollbar,.content-alter .has-scrollbar{
+	.content-log .has-scrollbar,.content-alter .has-scrollbar,#list4{
 		overflow-y: scroll;
 		overflow-x: hidden;
 		position: absolute;
@@ -354,6 +358,16 @@
 	}
 	:-ms-input-placeholder { /* Internet Explorer 10+ */
 		color:#999;
+	}
+	.bot-content{
+		overflow: hidden;
+	}
+	.flip
+	{
+		border:solid 1px #c3c3c3;
+		text-align:center;
+		display: inline-block;
+		width:100%;
 	}
 
 

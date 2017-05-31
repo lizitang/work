@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>bot对话</title>
+    <title>chat对话</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/jquery-3.1.1.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -23,15 +23,18 @@
 					<div class="panel-control">
 						<span id="inputid" class="reset">Send</span>
 					</div>
-					<div class="panel-control">
-						<input type="text" id="idcontent" placeholder="请输入个人id读取聊天记录">
+					<div class="panel-control haveinput">
+						<input type="text" id="idcontent" placeholder="sessionid读取聊天记录">
+					</div>
+					<div class="panel-control haveinput">
+						<input type="text" id="idcontent2" placeholder="userid识别身份">
 					</div>
 					<h3 class="panel-title">Chat</h3>
 				</div>
 
 				<!--Widget body-->
 				<div id="demo-chat-body" class="collapse in">
-					<div class="nano has-scrollbar" style="height:600px">
+					<div class="nano has-scrollbar" style="height:100%">
 						<div class="nano-content pad-all" tabindex="0" style="right: -17px;">
 							<ul class="list-unstyled media-block" id="chat_container">
 							</ul>
@@ -55,12 +58,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-3 col-md-3 col-lg-3 content-log" style="background:#fff;height:703px;">
+		<div class="col-sm-3 col-md-3 col-lg-3 content-log" style="background:#fff;">
 			<div class="panel-heading">
 				<h3 class="panel-title">log正确内容</h3>
 			</div>
 			<!--content-log body start-->
-			<div   class="nano has-scrollbar" style="height:600px">
+			<div   class="nano has-scrollbar" style="height:100%">
 				<div  class="content-log-window" >
 					<div id="logbody" class="bot-content">
 					</div>
@@ -70,11 +73,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-2 col-md-2 col-lg-2 content-alter" style="background:#fff;height:703px;">
+		<div class="col-sm-2 col-md-2 col-lg-2 content-alter" style="background:#fff;">
 			<div class="panel-heading">
 				<h3 class="panel-title">修改对比</h3>
 			</div>
-			<div class="nano has-scrollbar" id="list3" style="height:600px">
+			<div class="nano has-scrollbar" id="list3" style="height:100%">
 				<div class="bot-content">
 					<ul class='conversation-alter'>
 					</ul>
@@ -84,11 +87,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-sm-2 col-md-2 col-lg-2 content-tracking" style="background:#fff;height:703px;">
+		<div class="col-sm-2 col-md-2 col-lg-2 content-tracking" style="background:#fff;">
 			<div class="panel-heading">
 				<h3 class="panel-title">frame tracking</h3>
 			</div>
-			<div class="nano has-scrollbar" id = "list4" style="height:600px">
+			<div class="nano has-scrollbar" id = "list4" style="height:100%">
 				<ul class="iframe">
 
 				</ul>
