@@ -59,7 +59,7 @@
  		padding: 0px 5px;
  	}
 	.haveinput{
-		width: 200px;
+		width: 130px;
 	}
 
  	.panel-title {
@@ -367,7 +367,10 @@
 		border:solid 1px #c3c3c3;
 		text-align:center;
 		display: inline-block;
-		width:100%;
+		width:95%;
+	}
+	#idcontent,#idcontent2{
+		width: 120px;
 	}
 
 

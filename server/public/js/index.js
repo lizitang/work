@@ -31,29 +31,31 @@ userId = (userId === void 0 || userId == "null")? '100':userId;
 //save sessionid to sessionStorage
 
 var frames_length = 0;
+
+var nlgprevalue=[];
 // when DOM is ready
 $(document).ready(function(){
 
     $('div.nano-content').scroll(function(){
         $(".content-log .has-scrollbar").scrollTop($('div.nano-content').scrollTop());
         $("#list3").scrollTop($('div.nano-content').scrollTop());
-        $("#list4").scrollTop($('div.nano-content').scrollTop());
+        // $("#list4").scrollTop($('div.nano-content').scrollTop());
     })
     $('.content-log .has-scrollbar').scroll(function(){
         $('div.nano-content').scrollTop($(".content-log .has-scrollbar").scrollTop());
         $('#list3').scrollTop($(".content-log .has-scrollbar").scrollTop());
-        $('#list4').scrollTop($(".content-log .has-scrollbar").scrollTop());
+        // $('#list4').scrollTop($(".content-log .has-scrollbar").scrollTop());
     })
     $('#list3').scroll(function(){
         $('div.nano-content').scrollTop($("#list3").scrollTop());
         $('.content-log .has-scrollbar').scrollTop($("#list3").scrollTop());
-        $('#list4').scrollTop($("#list3").scrollTop());
+        // $('#list4').scrollTop($("#list3").scrollTop());
     })
-    $('#list4').scroll(function(){
-        $('div.nano-content').scrollTop($("#list4").scrollTop());
-        $('#list3').scrollTop($("#list4").scrollTop());
-        $('.content-log .has-scrollbar').scrollTop($("#list4").scrollTop());
-    })
+    // $('#list4').scroll(function(){
+    //     $('div.nano-content').scrollTop($("#list4").scrollTop());
+    //     $('#list3').scrollTop($("#list4").scrollTop());
+    //     $('.content-log .has-scrollbar').scrollTop($("#list4").scrollTop());
+    // })
     // get chat container
     var chatContainer= $('#chat_container');
     // get scroll container
@@ -94,22 +96,22 @@ $(document).ready(function(){
                 indx = data.result.length
                 var useract,userner,useractnew,usernernew;
                 for(var i = 0;i<data.result.length;i++){
+                    nlgprevalue.push(data.result[i].robot_answer.content)
                     content = answerFromCustomer(data.result[i].user_question.content, userName);
                     // appendContent(content);
                     chatContainer.append(content);
                     var h = parseInt($("#chat_container").css("height"))
                     $(".bot-content").css({"height":h+400+"px"})
                     $(".conversation-alter").css({"height":h+400+"px"})
-                    $(".iframe").css({"height":h+400+"px"})
+                    // $(".iframe").css({"height":h+400+"px"})
                     scrolled=scrolled+300;
                     scrollContainer[0].scrollTop=scrolled
                     content = answerFromBot(data.result[i].robot_answer.content, BOT_NAME);
-                    console.log(content);
                     // appendContent(content);a
                     chatContainer.append(content);
                     $(".bot-content").css({"height":h+400+"px"})
                     $(".conversation-alter").css({"height":h+400+"px"})
-                    $(".iframe").css({"height":h+400+"px"})
+                    // $(".iframe").css({"height":h+400+"px"})
                     scrolled=scrolled+300;
                     scrollContainer[0].scrollTop=scrolled
                     //生成第二列
@@ -123,7 +125,6 @@ $(document).ready(function(){
                         $($("#logbody .userMsgs")[i]).find(".user-request").html(useractnew);
                         if(useractnew!=useract){
                             liTop=$("#logbody").find(".userMsgs").last()[0].offsetTop+65;
-                            console.log(liTop)
                             //生成第三列
                             appendlist3()
                             $(".user-alter .user-alter-act").last().find(".alter-after").css({"color":"#31cbf1"})
@@ -142,7 +143,6 @@ $(document).ready(function(){
                         $($("#logbody .userMsgs")[i]).last().find(".user-ner").html(usernernew);
                         if(usernernew!=userner){
                             liTop=$("#logbody").find(".userMsgs").last()[0].offsetTop+115;
-                            console.log(liTop)
                             //生成第三列
                             appendlist3()
                             $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
@@ -157,8 +157,7 @@ $(document).ready(function(){
                     }
                     if(data.result[i].robot_answer.refined_act && data.result[i].robot_answer.refined_act!=data.result[i].robot_answer.act){
                         $($(".bot-act")[i]).html(data.result[i].robot_answer.refined_act);
-                        liTop=$("#logbody").find(".bot-conversation").last()[0].offsetTop+115;
-                        console.log(liTop)
+                        liTop=$("#logbody").find(".bot-conversation").last()[0].offsetTop+65;
                         //生成第三列
                         appendlist3()
                         $(".user-alter .user-alter-act").last().find(".alter-after").css({"color":"red"})
@@ -173,8 +172,7 @@ $(document).ready(function(){
                     }
                     if(data.result[i].robot_answer.refined_content && data.result[i].robot_answer.refined_content!=data.result[i].robot_answer.content){
                         $($(".bot-nlg")[i]).html(data.result[i].robot_answer.refined_content);
-                        liTop=$("#logbody").find(".bot-conversation").last()[0].offsetTop+65;
-                        console.log(liTop)
+                        liTop=$("#logbody").find(".bot-conversation").last()[0].offsetTop+115;
                         //生成第三列
                         appendlist3()
                         $(".user-alter").last().css({"width":"100%","padding":0,"position":"absolute","top":liTop-80});
@@ -187,14 +185,12 @@ $(document).ready(function(){
                         $(".conversation-alter").find(".sign").next().last().html("");
                         $(".conversation-alter").find(".bf").last().remove();
                     }else{
-                        $($(".bot-nlg")[i]).html(data.result[i].robot_answer.content);
+                        // $($(".bot-nlg")[i]).html(data.result[i].robot_answer.content);
                     }
                 }
-                console.log(data)
             }
         });
     }
-    console.log($(window).height())
     $("#demo-chat-body .has-scrollbar").height($(window).height()-150)
     $(".content-log").height($(window).height()-100)
     $(".content-alter").height($(window).height()-100)
@@ -222,25 +218,25 @@ $(document).ready(function(){
         var customerHtml='<div>' +
             '<span class="userMsglist aa">ACT:</span>'+
             '<span class="user-request canname"></span>'+
-            '<span class="alter-btn modify cc" style="margin-right:17px;"onclick="change(this)">修改</span>'+
+            '<span class="alter-btn modify cc" style="cursor: pointer; margin-right:2px;"onclick="change(this)">修改</span>'+
             '</div>' +
             '<div style="margin-top:10px;">'+
             '<span class = "aa">NER:</span>'+
             '<span class="user-ner canname"><!--request+price(category=面膜)--></span>'+
-            '<span class="alter-btn modify cc" style="margin-right:17px;" onclick="change(this)">修改</span>'+
+            '<span class="alter-btn modify cc" style="cursor: pointer;margin-right:2px;" onclick="change(this)">修改</span>'+
             '</div>';
         $("#logbody .userMsgs").last().append(customerHtml);
         //append botconversation
         var botHtml='<div class="bot-conversation" style="padding:0;width:100%;">'+
-            '<div>'+
-            '<span class = "aa" style="display:inline-block;position: absolute;top: 0;">NLG:</span>'+
-            '<span class="bot-nlg canname" style="display:inline-block;margin-left:35px;width: 75%;"><!--request+price(category=面膜)--></span>'+
-            '<span class="alter-btn modify cc" style="margin-right:17px;" onclick="change(this)">修改</span>'+
+            '<div >'+
+            '<span class = "aa" >Act:</span>'+
+            '<span class="bot-act canname" ><!--request+price(category=面膜)--></span>'+
+            '<span class="alter-btn modify cc" style="cursor: pointer;margin-right:2px;" onclick="change(this)">修改</span>'+
             '</div>'+
             '<div style="margin-top:10px;">'+
-            '<span class = "aa">Act:</span>'+
-            '<span class="bot-act canname"><!--request+price(category=面膜)--></span>'+
-            '<span class="alter-btn modify cc" style="margin-right:17px;" onclick="change(this)">修改</span>'+
+            '<span class = "aa" style="display:inline-block;position: absolute;top:30px;">NLG:</span>'+
+            '<span class="bot-nlg canname" style="display:inline-block;margin-left:35px;width: 70%;"><!--request+price(category=面膜)--></span>'+
+            '<span class="alter-btn modify cc" style="cursor: pointer;margin-right:2px;" onclick="change(this)">修改</span>'+
             '</div>'+
             '</div>';
         $("#logbody .userMsgs").last().after(botHtml);
@@ -295,11 +291,11 @@ $(document).ready(function(){
             alert("userid不能为空！")
             return false;
         }
+        userName = $("#idcontent2").val();
         //mark sequence
         indx++;
         // get user msg
         var userMsg = $("#user_msg").val();
-        console.log(userMsg);
         if(userMsg === void 0 || userMsg === '') {
             // clear focus on button
             $(document).focus();
@@ -335,9 +331,6 @@ $(document).ready(function(){
                     "act":bact
                 }
             };
-            console.log("发送")
-            console.log(data0);
-            console.log(answer);
             $.ajax({
                 type: "POST",
                 url:requestURL2,
@@ -352,20 +345,19 @@ $(document).ready(function(){
                 data:JSON.stringify(data0),
                /* dataType: 'json',*/
                 success: function (data) {
-                    console.log(data);
                 }
             });
         }
         setTimeout(function(){
             test()
+            $(".iframe").empty()
             appendlist4();
-            $(".iframeli").last().find(".activeframe").html(actframe);
-            // $(".iframeli").last().find(".frames").html(frames);
             for(var i=0;i<frames_length;i++){
-                $(".iframes").last().append('<p style = "margin: 0;"><p class="framesid" style = "margin: 0;">1</p><p class="frame"  style = "margin: 0;"></p></p>');
-                $(".framesid").last().html(i+":")
+                $(".iframes").last().append('<p style = "margin: 0;"><p class="framesid" onclick="flipobj(this);" style = "margin: 0;">1</p><p class="frame"  style = "display:none;margin: 0;"></p></p>');
+                $(".framesid").last().html(i+":"+"▼")
                 $(".frame").last().html(JSON.stringify(frames[i]));
                 if(i==actframe){
+                    $(".framesid")[i].innerHTML = $(".framesid")[i].innerHTML+"<span style='color:#21ce21;'> active </span>"
                     $(".frame").last().addClass("text-primary")
                 }
             }
@@ -391,10 +383,9 @@ $(document).ready(function(){
         scrollContainer.animate({scrollTop: scrolled},200,function(){
             //获取第一列高度给第三和四列
             var hhh = parseInt($("#chat_container").css("height"))
-            console.log(($("#chat_container").css("height")))
             $(".bot-content").css({"height":hhh+100+"px"})
             $(".conversation-alter").css({"height":hhh+100+"px"})
-            $(".iframe").css({"height":hhh+100+"px"})
+            // $(".iframe").css({"height":hhh+100+"px"})
             $(".content-log .has-scrollbar").scrollTop(hhh);
         });
         // scrollContainer[0].scrollTop=scrolled
@@ -415,7 +406,6 @@ $(document).ready(function(){
             success:function(data){
                 var result1 = data;
                 act0=result1.act;
-                console.log(result1.ner);
                 ner0 = JSON.stringify(result1.ner);
                 ner=JSON.stringify(result1.ner).replace("{","").replace("}","");
                 $("#logbody .userMsgs").last().find(".user-request").html(result1.act);
@@ -426,35 +416,33 @@ $(document).ready(function(){
         //最后给的链接返回用户信息获取机器人信息
             setTimeout(function(){
                 ner0 = JSON.parse(ner0);
-                var text1=JSON.stringify({"act":act0,"ner":ner0,"text":userMsg,"uid":$("#idcontent2").val()});
-                console.log("?"+text1)
-                var requestURL6 ='http://192.168.2.211:9900/sales_bot?text='+encodeURIComponent(text1);
+                var text1=JSON.stringify({"act":act0,"ner":ner0,"text":userMsg});
+                text1=encodeURIComponent(text1);
+                var text2=encodeURIComponent($("#idcontent2").val());
+                var requestURL6 ='http://192.168.2.211:9900/sales_bot?text='+text1+"&uid="+text2;
                 var url6 ="http://localhost:8089/proxy?target=" + encodeURIComponent(requestURL6);
                 $.ajax({
                     type: "GET",
                     url:url6,
                     dataType:"json",
                      timeout:2000,
-                    error: function(event){
+                    error: function(data){
                         // create error msg from bot
-                        alert('33');
                         content = answerFromBot(errorMsg, BOT_NAME);
                         lost_connection = true;
                         appendContent(content);
                         $("#logbody .bot-conversation").last().css({"position":"absolute","top":$('.speech-left2').last()[0].offsetTop})
                     },
                     success: function (data) {
-                        console.log("??")
-                        console.log(data);
                         //获取bot 的act
                         bact = data.act;
                         $(".bot-act").last().html(data.act);
                         lost_connection = false;
                         answer =data.text;
+                        nlgprevalue.push(answer)
+                        console.log(nlgprevalue)
                         actframe=data.activeFrame;
                         frames=data.frames;
-                        console.log(actframe);
-                        console.log(frames);
                         function getJsonLength(jsonData){
 
                             var jsonLength = 0;
@@ -474,7 +462,6 @@ $(document).ready(function(){
                             var content = answerFromBot(answer, BOT_NAME);
                             hasResponse = appendContent(content);
                             $("#logbody .bot-conversation").last().css({"height":$('.speech-left2').last().height(),"position":"absolute","top":$('.speech-left2').last()[0].offsetTop})
-                            console.log(answer);
                             $(".bot-nlg").last().html(answer);
                             return false;
                         }
@@ -494,19 +481,17 @@ $(document).ready(function(){
 });
 
     function appendlist4(){
-        var framelist= '<li class="iframeli" style="width:100%;height:200px;">'+
+        var framelist= '<li class="iframeli" style="width:95%;">'+
             '<div>'+
-            '<span >activeframe:</span>'+
-            '<span class="activeframe"></span>'+
             '</div>'+
-            '<div class="frames" style="word-break:break-all;width:100%;height:180px;overflow-y:auto;overflow-x: hidden;z-index:1000;cursor:pointer;">'+
-            '<p class="iframes" style="display:none;height:auto;">frames:</p >'+
+            '<div class="frames" style="word-break:break-all;width:99%;overflow-y:auto;z-index:1000;cursor:pointer;">'+
+            '<p class="iframes" style="height:auto;">frames:</p >'+
             '<div>'+
-            '<p class="flip"  style="border-radius:5px;" onclick="flipobj(this);">点击这里查看更多!</p >'+
+            // '<p class="flip"  style="border-radius:5px;" onclick="flipobj(this);">点击这里查看更多!</p >'+
             '</li>';
         ;
         $(".iframe").append(framelist);
-        $(".iframeli").last().css({"position":"absolute","top":$('.speech-right').last()[0].offsetTop});
+        $(".iframeli").last().css({"position":"absolute","top":"50px"});
     }
 // assembe html tag for bot answer
 function answerFromBot(/* string msg to sentd*/msg, /* bot name */botName){
@@ -547,27 +532,27 @@ function formatAMPM(/* Date Object */date) {
         var now = new Date();
         var hours = now.getHours();
         var ampm = hours >= 12 ? '，下午' : '，上午';
-        return 'Hello ' + userName + ampm + '好啊，我能为你做些什么呢？';
+        return 'Hello '  + ampm + '好啊，我能为你做些什么呢？';
     };
     // generate error msg
     function generateErrorMsg(/*String*/userName){
-        return '对不起' + userName + '，我刚刚掉线了^-^';
+        return '对不起'  + '，我刚刚掉线了^-^';
     };
     function appendlist3(){
         var altercontent='<li class="user-alter" style="padding: 9px 9px;">'+
             '<div class="user-alter-act">'+
             '<div class="bf">'+
-            '<span class="sign"></span><span>before：</span><span class="alter-before"></span><span class="sq"></span>'+
+            '<span class="sign"></span><span>before：</span><span class="alter-before"></span>'+
             '</div>'+
             '<div class="af">'+
-            '<span class="sign"></span><span>after：</span><span class="alter-after"></span>'+
+            '<span class="sign"></span><span>after：</span><span class="alter-after"></span><span class="sq"></span>'+
             '</div>'+
             '</div>'+
             '</li>';
             $(".conversation-alter").last().append(altercontent);
     }
     function flipobj(obj){
-        $(obj).parent().siblings(".iframes").slideToggle("slow");
+        $(obj).next().slideToggle("slow");
 
     }
     var prevalue,sign,lock2 = "open",liTop;
@@ -592,24 +577,21 @@ function formatAMPM(/* Date Object */date) {
             //获取到新内容
             var newtxt=$input.val();
             $input.parent("span").html(newtxt);
-            console.log(newtxt)
             //获取第二列定位高度
-            if(sign == "ACT:" || sign == "NLG:"){
+            if(sign == "ACT:" || sign == "Act:"){
                 liTop=$(obj).parent().parent()[0].offsetTop+65;
             }else{
                 liTop=$(obj).parent().parent()[0].offsetTop+115;
             }
-            console.log(liTop)
             $(obj).text('修改');
             //遍历匹配
+
+
         var lock="open";
             for(var i=0;i<$(".conversation-alter").children().length;i++){
-                console.log(sign)
-                console.log($($(".conversation-alter").children()[i]).find(".sign").html())
-                console.log(sign==$($(".conversation-alter").children()[i]).find(".sign").html())
+
                 if((sign==$($(".conversation-alter").children()[i]).find(".sign").html()) && (seeq==$($(".conversation-alter").children()[i]).find(".sq").html())){
                     lock="close";
-
                     //修改第i块内容
                     if(prevalue!=newtxt){
                         $($(".conversation-alter").children()[i]).find(".alter-after").html(newtxt);
@@ -619,10 +601,17 @@ function formatAMPM(/* Date Object */date) {
                             $($(".conversation-alter").children()[i]).find(".bf").remove();
                         }
                     }
+                    console.log(nlgprevalue[$(obj).parent().parent().attr("seq")-1])
+                    console.log("??"+newtxt)
                     //删除第i块
-                    if($($(".conversation-alter").children()[i]).find(".alter-before").html() == $($(".conversation-alter").children()[i]).find(".alter-after").html()){
-                        $($(".conversation-alter").children()[i]).html("");
+                    if($($(".conversation-alter").children()[i]).find(".alter-before").html() == $($(".conversation-alter").children()[i]).find(".alter-after").html()||(nlgprevalue[$(obj).parent().parent().attr("seq")-1]==newtxt)){
+
+                        $($(".conversation-alter").children()[i]).remove();
                     }
+
+                    // if($($(".conversation-alter").children()[i]).find(".alter-after").html() == "已修改!请在后台读取修改结果^_^" && nlgprevalue[i]==newtxt){
+                    //     $($(".conversation-alter").children()[i]).html("");
+                    // }
                 }
             }
         if(lock=="open" && prevalue!=newtxt){
@@ -689,7 +678,6 @@ function formatAMPM(/* Date Object */date) {
                 }
             }
         }else{alert(1)}
-        console.log(JSON.stringify(param))
         $.ajax({
             url:"qa",
             type:"PUT",
