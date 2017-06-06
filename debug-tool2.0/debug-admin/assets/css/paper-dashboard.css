@@ -213,7 +213,7 @@ hr {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  right: 0;
   z-index: 1;
   background-size: cover;
   background-position: center center; }
@@ -221,7 +221,7 @@ hr {
     position: relative;
     max-height: none;
     min-height: 100%;
-    overflow: hidden\n;
+    overflow: hidden;
     width: 260px;
     z-index: 4;
     box-shadow: inset -1px 0px 0px 0px #DDDDDD; }
@@ -278,23 +278,23 @@ hr {
       opacity: 1; }
       .sidebar .nav li.active > a:before,
       .off-canvas-sidebar .nav li.active > a:before {
-        border-right: 17px solid #DDDDDD;
+        border-left: 17px solid #DDDDDD;
         border-top: 17px solid transparent;
         border-bottom: 17px solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
-        right: 0;
+        left: 0;
         top: 8px; }
       .sidebar .nav li.active > a:after,
       .off-canvas-sidebar .nav li.active > a:after {
-        border-right: 17px solid #f4f3ef;
+        border-left: 17px solid #f4f3ef;
         border-top: 17px solid transparent;
         border-bottom: 17px solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
-        right: -1px;
+        left: -1px;
         top: 8px; }
     .sidebar .nav p,
     .off-canvas-sidebar .nav p {
@@ -393,7 +393,6 @@ hr {
   background-color: #f4f3ef;
   position: relative;
   z-index: 2;
-  float: right;
   width: calc(100% - 260px);
   min-height: 100%; }
   .main-panel > .content {

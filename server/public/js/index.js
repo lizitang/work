@@ -404,7 +404,9 @@ $(document).ready(function(){
             type:"GET",
             dataType:'json',
             success:function(data){
+
                 var result1 = data;
+                console.log(result1);
                 act0=result1.act;
                 ner0 = JSON.stringify(result1.ner);
                 ner=JSON.stringify(result1.ner).replace("{","").replace("}","");

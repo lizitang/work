@@ -2,7 +2,6 @@
 type = ['','info','success','warning','danger'];
 // action config
 actionConfig = {};
-
 debugTool = {
 	// color picker
     initPickColor: function(){
@@ -48,8 +47,8 @@ debugTool = {
     		// load action config
     		$.ajax({
     			type:"get",
-    			url:"http://localhost:5000/rest/config/get",
-    			/*url:"rest/config/get",*/
+      			url:"http://localhost:5000/rest/config/get",
+//  			url:"rest/config/get",
     			contentType:"application/json",
     			dataType:"json",
     			async:true
@@ -64,6 +63,7 @@ debugTool = {
 	    				var eValue = "";
 	    				if(source == 'segment'){
 	    					eValue = convertDicToStr(data.config.segment);
+	    					console.log(toArray(eValue));
 	    				}else if(source == 'solr'){
 	    					eValue = convertDicToStr(data.config.solr);
 	    				}else if(source == 'ranker'){
@@ -74,6 +74,7 @@ debugTool = {
 	    							var dic = data.config[key];
 	    							eValue += '[' + key + ']\n';
 	    							eValue += convertDicToStr(dic);	
+	    							console.log(toArray(eValue));
 	    						}
 	    					});
 	    				}else if(source == 'summary'){
@@ -90,15 +91,22 @@ debugTool = {
 	    						}
 	    					});
 	    				}
-	    				// create editable
-	    				$(e).editable({
-				        title: '配置',
-				        mode:'popup',
-				        value: eValue,
-				        rows: 4
-				    });
+	    				$(".modal-body textarea")[index].innerHTML=eValue;
+	    				$(".stats")[index].index=index;
     				});
     				
+    				$(".stats").unbind("click").click(function(){
+    					$($(".mymodal2")[this.index]).show();
+    					$($(".modal-dialog2")[this.index]).show();
+    				});
+    				$(".btn-default").unbind("click").click(function(){
+    					$(".mymodal2").hide();
+    					$(".modal-dialog2").hide();
+    				});
+    				$(".btn-primary").unbind("click").click(function(){
+    					$(".mymodal2").hide();
+    					$(".modal-dialog2").hide();
+    				});
     			}
     		});
     		// button to execute query
@@ -114,8 +122,8 @@ debugTool = {
     			} else{
     				$.ajax({
     					type:"get",
-    					url:"http://localhost:5000/rest/debug/trace",
-    					/*url:"rest/debug/trace",*/
+      					url:"http://localhost:5000/rest/debug/trace",
+//  					url:"rest/debug/trace",
     					contentType:"application/json",
     					dataType:"json",
     					async:true,
@@ -352,3 +360,31 @@ function convertDicToStr(/*JSON Dictionary*/ dic){
 	});
 	return str;
 }
+//返回拼好json格式的字符串  
+function toArray(str)  
+{  
+  var list = str.split("\n");  
+  var myStr = "{";  
+  for(var i=0;i<list.length;i++)  
+  {  
+    try{  
+      var keys = list[i].split("=");  
+      var key = Trim(keys[0]);   
+      var value= Trim(keys[1]);  
+      if(i>0)  
+      {  
+        myStr += ",";  
+      }  
+      myStr += "\""+key+"\":\""+value+"\"";  
+    }catch(e)  
+    {  
+      continue;  
+    }  
+  }  
+  myStr += "}";  
+  return myStr;  
+}  
+//替换掉字符串中头尾的空格  
+function Trim(str){    
+    return str.replace(/(^\s*)|(\s*$)/g, "");    
+}   
