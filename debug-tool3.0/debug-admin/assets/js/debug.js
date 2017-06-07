@@ -1,7 +1,57 @@
 // color type
 type = ['','info','success','warning','danger'];
 // action config
+var eValueArry = [];
+var data0;
 actionConfig = {};
+function toArray(str)  
+{  
+  var list = str.split("\n");  
+  var myStr = "{";  
+  for(var i=0;i<list.length;i++)  
+  {  
+    try{  
+      var keys = list[i].split("=");  
+      var key = Trim(keys[0]);   
+      var value= Trim(keys[1]);  
+      if(i>0)  
+      {  
+        myStr += ",";  
+      }  
+      myStr += "\""+key+"\":\""+value+"\"";  
+    }catch(e)  
+    {  
+      continue;  
+    }  
+  }  
+  myStr += "}";  
+  return myStr;  
+}  
+function transText(str) {
+		const titleArr = str.match(/\[\w+\]/g)
+		.map(el => el.slice(1, -1))
+		const kvArr = str.split(/\n?\[\w+\]\n?/)
+		.filter(el => el.length)
+		.map(el => el.split('\n'))
+		
+		return titleArr.reduce((prev, name, idx) => {
+		return Object.assign(prev, {
+		[name]: kvArr[idx].reduce((prev, el) => {
+		const [key, val] = el.split(/\s?=\s?/)
+
+		return Object.assign(prev, {
+		[key]: val
+	})
+}, {})
+})
+}, {})
+}
+
+
+//替换掉字符串中头尾的空格  
+function Trim(str){    
+    return str.replace(/(^\s*)|(\s*$)/g, "");    
+}   
 debugTool = {
 	// color picker
     initPickColor: function(){
@@ -54,6 +104,7 @@ debugTool = {
     			async:true
     		}).success(function(data){
     			if(data.config != void 0){
+	    			console.log(data.config);
     				// show config
     				var actionEdits = $('div.stats').children('a');
     				$.each(actionEdits, function(index, e) {
@@ -63,7 +114,6 @@ debugTool = {
 	    				var eValue = "";
 	    				if(source == 'segment'){
 	    					eValue = convertDicToStr(data.config.segment);
-	    					console.log(toArray(eValue));
 	    				}else if(source == 'solr'){
 	    					eValue = convertDicToStr(data.config.solr);
 	    				}else if(source == 'ranker'){
@@ -74,7 +124,6 @@ debugTool = {
 	    							var dic = data.config[key];
 	    							eValue += '[' + key + ']\n';
 	    							eValue += convertDicToStr(dic);	
-	    							console.log(toArray(eValue));
 	    						}
 	    					});
 	    				}else if(source == 'summary'){
@@ -87,25 +136,47 @@ debugTool = {
 	    							if(dic['scoreweight'] != void 0){
 	    								eValue += '[' + key + ']\n';
 	    								eValue += 'scoreweight = ' + dic['scoreweight'] + '\n';	
+	    								console.log(transText(eValue));
 	    							}		
 	    						}
 	    					});
 	    				}
-	    				$(".modal-body textarea")[index].innerHTML=eValue;
-	    				$(".stats")[index].index=index;
+	    				eValueArry.push(eValue)
+	    				$(".modal-body textarea")[index].value=eValue
+	    				$(".stats")[index].index=index
+	    				$(".btn-primary")[index].index=index
     				});
-    				
     				$(".stats").unbind("click").click(function(){
-    					$($(".mymodal2")[this.index]).show();
-    					$($(".modal-dialog2")[this.index]).show();
+    					$($(".mymodal2")[this.index]).show()
+    					$($(".modal-dialog2")[this.index]).show()
     				});
     				$(".btn-default").unbind("click").click(function(){
-    					$(".mymodal2").hide();
-    					$(".modal-dialog2").hide();
+    					$(".mymodal2").hide()
+    					$(".modal-dialog2").hide()
     				});
     				$(".btn-primary").unbind("click").click(function(){
+    					if((this.index==0) && ($(".modal-body textarea")[0].value!=eValueArry[0])){
+    						data0 = "{"+"\"config\":"+"{"+"\"segment\":"+Trim(toArray($(".modal-body textarea")[0].value))+"}"+"}";
+    					}
+    					else if((this.index==1) && ($(".modal-body textarea")[1].value!=eValueArry[1])){
+    						data0 = "{"+"\"config\":"+"{"+"\"solr\":"+Trim(toArray($(".modal-body textarea")[1].value))+"}"+"}";
+    					}
+    					else if((this.index==2) && ($(".modal-body textarea")[2].value!=eValueArry[2])){
+    						data0 = "{"+"\"config\":"+JSON.stringify(transText($(".modal-body textarea")[2].value))+"}";
+    					}
+    					else if((this.index==3) && ($(".modal-body textarea")[3].value!=eValueArry[3])){
+    						data0 ="{"+"\"config\":"+ JSON.stringify(transText($(".modal-body textarea")[3].value))+"}";
+    					}
+    					console.log(data0);
     					$(".mymodal2").hide();
     					$(".modal-dialog2").hide();
+    					$.ajax({
+    						type:"post",
+    						url:"http://localhost:5000/rest/config/all/update",
+    						contentType:"application/json",
+    						dataType:"json",
+    						data:data0
+    					})
     				});
     			}
     		});
@@ -360,31 +431,3 @@ function convertDicToStr(/*JSON Dictionary*/ dic){
 	});
 	return str;
 }
-//返回拼好json格式的字符串  
-function toArray(str)  
-{  
-  var list = str.split("\n");  
-  var myStr = "{";  
-  for(var i=0;i<list.length;i++)  
-  {  
-    try{  
-      var keys = list[i].split("=");  
-      var key = Trim(keys[0]);   
-      var value= Trim(keys[1]);  
-      if(i>0)  
-      {  
-        myStr += ",";  
-      }  
-      myStr += "\""+key+"\":\""+value+"\"";  
-    }catch(e)  
-    {  
-      continue;  
-    }  
-  }  
-  myStr += "}";  
-  return myStr;  
-}  
-//替换掉字符串中头尾的空格  
-function Trim(str){    
-    return str.replace(/(^\s*)|(\s*$)/g, "");    
-}   
