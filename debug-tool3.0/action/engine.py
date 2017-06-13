@@ -195,6 +195,7 @@ class ServiceParallelAction(Action):
         ## get service result by taskParam dictionary
         result = await service.fetch(self.session,taskParam)
         ## task param is dictionary, clone it and append result
+        ## service result is return as text
         taskParam['result'] = result
         taskParam['service'] = service.service_name
         return taskParam

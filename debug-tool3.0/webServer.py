@@ -4,6 +4,7 @@ from flask import abort
 from flask import request
 from flask import jsonify
 from flask_cors import CORS
+from flask_cors import cross_origin
 from config import ConfigLoader
 from action.engine import ActionEngine
 from action.report import Reporter
@@ -16,6 +17,7 @@ import sys
 app = Flask(__name__)
 # allow access orgin
 CORS(app)
+app.config['CORS_HEADERS'] = 'application/json'
 # run app with options
 def flaskrun(app, default_debug=True, default_host="127.0.0.1", default_port="5000"):
     app.run(
@@ -93,51 +95,70 @@ def updateConfig():
     return jsonify({'status': 'OK','config': configLoader.config._sections})
 
 # action engine process
-@app.route('/rest/debug/trace', methods=['GET'])
+@app.route('/rest/debug/trace', methods=['GET', 'POST'])
+@cross_origin(methods=['GET','POST'])
 def trace():
     # if classifier not found
     if actionEngine is None:
         abort(404)
     # default result unknown
     result = "UNKNOWN"
+    # action engine params
+    params = {}
     # process get
     if request.method == 'GET':
         # get text of input
         text = request.args.get('text')
         if text is None or len(text) == 0:
             abort(400)
-        try:
-            params = {};
-            params['Text1'] = text
-            params['robot'] = "proactive"
-            params['serviceweight'] = configLoader.getServiceWeight()
-            reporter = actionEngine.handleRequest(params)
-            # traverse all to collect all report result
-            result = []
-            actions = {}
-            for event in reporter.events:
-                actionName = event.actionName
-                # if action exists
-                if actionName in actions:
-                    actionReport = actions[actionName]
-                else:
-                    # create new action report
-                    actionReport = {}
-                    actionReport['name'] = actionName
-                    actions[actionName] = actionReport
-                # set event value
-                if event.eventType == EventType.START:
-                    actionReport['start'] = event.eventContent
-                elif event.eventType == EventType.END:
-                    actionReport['end'] = event.eventContent
-                else:
-                    actionReport['result'] = event.eventContent
-                if 'start' in actionReport and 'end' in actionReport and 'result' in actionReport:
-                    #actionReport['time'] = int(actionReport['end']) - int(actionReport['start'])
-                    result.append(actionReport)
-        except Exception as e:
-            print('Error occurs when tracing result: {ex}'.format(ex=e))
-            return jsonify({'status': 'fail', "error": str(e)})
+        params['Text1'] = text
+        params['robot'] = "proactive"
+        params['serviceweight'] = configLoader.getServiceWeight()
+    elif request.method == 'POST':
+        # get user post data
+        postData = request.get_json(silent=True)
+        print(postData)
+        # get text of user input
+        text = postData['text']
+        # solr extended should be list
+        solrExtend = postData['extended']
+        if text is None or len(text) == 0:
+            abort(400)
+        params['Text1'] = text
+        params['SolrExtended'] = solrExtend
+        params['robot'] = "proactive"
+        params['serviceweight'] = configLoader.getServiceWeight()
+    # if params are empty
+    if len(params) == 0:
+        abort(400)
+    try:
+        reporter = actionEngine.handleRequest(params)
+        # traverse all to collect all report result
+        result = []
+        actions = {}
+        for event in reporter.events:
+            actionName = event.actionName
+            # if action exists
+            if actionName in actions:
+                actionReport = actions[actionName]
+            else:
+                # create new action report
+                actionReport = {}
+                actionReport['name'] = actionName
+                actions[actionName] = actionReport
+            # set event value
+            if event.eventType == EventType.START:
+                actionReport['start'] = event.eventContent
+            elif event.eventType == EventType.END:
+                actionReport['end'] = event.eventContent
+            else:
+                actionReport['result'] = event.eventContent
+            if 'start' in actionReport and 'end' in actionReport and 'result' in actionReport:
+                #actionReport['time'] = int(actionReport['end']) - int(actionReport['start'])
+                result.append(actionReport)
+    except Exception as e:
+        print('Error occurs when tracing result: {ex}'.format(ex=e))
+        return jsonify({'status': 'fail', "error": str(e)})
     # return result
     return jsonify({'result': result})
 

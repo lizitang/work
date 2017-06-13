@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="modal2 mymodal2" style="display: none;">
-		<div class="modal-dialog2" style="width:40%;display: none;">
+		<div class="modal-dialog2" style="width:30%;display: none;">
 		    <div class="modal-content">
 		    	<div class="modal-header">
 					<h4 class="modal-title">配置</h4>
@@ -46,14 +46,14 @@
 					<textarea rows="5">1</textarea>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default">关闭</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-danger">关闭</button>
+					<button type="button" class="btn btn-success">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal2 mymodal2" style="display: none;">
-		<div class="modal-dialog2" style="width:40%;display: none;">
+		<div class="modal-dialog2" style="width:30%;display: none;">
 		    <div class="modal-content">
 		    	<div class="modal-header">
 					<h4 class="modal-title">配置</h4>
@@ -62,14 +62,14 @@
 					<textarea rows="5">2</textarea>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default">关闭</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-danger">关闭</button>
+					<button type="button" class="btn btn-success">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal2 mymodal2" style="display: none;">
-		<div class="modal-dialog2" style="width:40%;display: none;">
+		<div class="modal-dialog2" style="width:30%;display: none;">
 		    <div class="modal-content">
 		    	<div class="modal-header">
 					<h4 class="modal-title">配置</h4>
@@ -78,14 +78,14 @@
 					<textarea rows="5">3</textarea>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default">关闭</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-danger">关闭</button>
+					<button type="button" class="btn btn-success">保存</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal2 mymodal2" style="display: none;">
-		<div class="modal-dialog2" style="width:40%;display: none;">
+		<div class="modal-dialog2" style="width:30%;display: none;">
 		    <div class="modal-content">
 		    	<div class="modal-header">
 					<h4 class="modal-title">配置</h4>
@@ -94,8 +94,8 @@
 					<textarea rows="5">4</textarea>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default">关闭</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-danger">关闭</button>
+					<button type="button" class="btn btn-success">保存</button>
 				</div>
 			</div>
 		</div>
@@ -175,16 +175,22 @@
 
         <div class="content">
             <div class="container-fluid">
-				<div class="row">
+				<div class="row" style="position:relative">
 					<div class="col-lg-12">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Debug for...">
+							<span class="input-group-addon" id="plusBtn" style="background:#cecece;">
+								<i class="ti-plus"></i>
+							</span>
+							<input type="text" class="form-control" placeholder="query...">
+							<span class="input-group-addon test"></span>
+							<input type="text" class="form-control standardQuery" placeholder="standardQuery...">
 							<span class="input-group-btn">
-								<button id="debugBtn" class="btn btn-default" type="button">Go!</button>
+								<button id="debugBtn" class="btn btn-default" type="button" >GO!</button>
 							</span>
 						</div>
 						<!-- /input-group -->
 					</div>
+					<div class="inputList" style="width:46%;height:auto;position:absolute;top:50px;left:52px;z-index:10000;height:auto;"></div>
 					<!-- /.col-lg-6 -->
 				</div>
 				<!-- /.row -->
@@ -408,11 +414,11 @@
 
 </div>
 <!-- dialog to wait -->
-<div id="pleaseWaitDialog" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
+<div id="pleaseWaitDialog" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" >
   <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-     	<div class="icon-big icon-success text-center">
-            <i class="fa fa-spinner fa-spin"></i>
+    <div class="modal-content" style="width:30px;height:30px;background: transparent;border:none;margin-left:100px;">
+     	<div class="icon-small icon-success text-center" >
+            <i class="fa fa-spinner fa-spin fa-2x" ></i>
         </div>
     </div>
   </div>

@@ -1,9 +1,11 @@
 // color type
 type = ['','info','success','warning','danger'];
 // action config
+actionConfig = {};
+
 var eValueArry = [];
 var data0;
-actionConfig = {};
+
 function toArray(str)  
 {  
   var list = str.split("\n");  
@@ -29,7 +31,7 @@ function toArray(str)
 }  
 function transText(str) {
 		const titleArr = str.match(/\[\w+\]/g)
-		.map(el => el.slice(1, -1))
+		.map(el => el.slice(1, -1))//分割出头部
 		const kvArr = str.split(/\n?\[\w+\]\n?/)
 		.filter(el => el.length)
 		.map(el => el.split('\n'))
@@ -40,8 +42,8 @@ function transText(str) {
 		const [key, val] = el.split(/\s?=\s?/)
 
 		return Object.assign(prev, {
-		[key]: val
-	})
+			[key]: val
+		})
 }, {})
 })
 }, {})
@@ -104,7 +106,6 @@ debugTool = {
     			async:true
     		}).success(function(data){
     			if(data.config != void 0){
-	    			console.log(data.config);
     				// show config
     				var actionEdits = $('div.stats').children('a');
     				$.each(actionEdits, function(index, e) {
@@ -135,8 +136,7 @@ debugTool = {
 	    							// has score weight
 	    							if(dic['scoreweight'] != void 0){
 	    								eValue += '[' + key + ']\n';
-	    								eValue += 'scoreweight = ' + dic['scoreweight'] + '\n';	
-	    								console.log(transText(eValue));
+	    								eValue += 'scoreweight = ' + dic['scoreweight'] + '\n';
 	    							}		
 	    						}
 	    					});
@@ -144,17 +144,17 @@ debugTool = {
 	    				eValueArry.push(eValue)
 	    				$(".modal-body textarea")[index].value=eValue
 	    				$(".stats")[index].index=index
-	    				$(".btn-primary")[index].index=index
+	    				$(".btn-success")[index].index=index
     				});
     				$(".stats").unbind("click").click(function(){
-    					$($(".mymodal2")[this.index]).show()
-    					$($(".modal-dialog2")[this.index]).show()
+    					$($(".mymodal2")[this.index]).show();
+    					$($(".modal-dialog2")[this.index]).show();
     				});
-    				$(".btn-default").unbind("click").click(function(){
-    					$(".mymodal2").hide()
-    					$(".modal-dialog2").hide()
+    				$(".btn-danger").unbind("click").click(function(){
+    					$(".mymodal2").hide();
+    					$(".modal-dialog2").hide();
     				});
-    				$(".btn-primary").unbind("click").click(function(){
+    				$(".btn-success").unbind("click").click(function(){
     					if((this.index==0) && ($(".modal-body textarea")[0].value!=eValueArry[0])){
     						data0 = "{"+"\"config\":"+"{"+"\"segment\":"+Trim(toArray($(".modal-body textarea")[0].value))+"}"+"}";
     					}
@@ -180,89 +180,243 @@ debugTool = {
     				});
     			}
     		});
+    		//click plus button,appear input box
+    		$("#plusBtn").on("click",function(){
+    			var oInput='<div class="input-group" style="width:100%;margin-bottom:5px;">'+
+									      	'<input type="text" class="form-control plus" style="width:100%" placeholder="Search for..." ">'+
+									      	'<span class="input-group-addon" ><i class="ti-close" style="color:#9a9696;"></i></span>'+
+									    '</div>';
+    			$(".row:first .inputList").append(oInput);
+    			$(".ti-close").on("click",function(){
+    				$(this).parent().parent("div").hide();
+    			});
+    		});
+    		$(".test").on("click",function(){
+    				$(".test").toggleClass("active");
+    				$(".inputList").toggle();
+    		})
+    		
     		// button to execute query
     		$('#debugBtn').on('click', function(e){
+    				
+    			//取消事件的默认行为
     			e.preventDefault();
     			// show wait
     			$('#pleaseWaitDialog').modal('show');
     			// get input value
-    			var sentence = $(this).closest('div.input-group').children('input').val();
+    			var sentence = $(this).closest('div.input-group').children("input:first").val();
+    			var inputArray=[];
+    			var standardSentence=$(".standardQuery").val();
+    			var inputSentence=$(".inputList").html();
+    			console.log(sentence);
+    			console.log(standardSentence);
+    			console.log(inputSentence=='');
     			if (sentence == void 0 || sentence == "") {
     				var msg = "Debug内容不能为空！";
     				debugTool.showNotification(4,msg,'top','center');
     			} else{
-    				$.ajax({
-    					type:"get",
-      					url:"http://localhost:5000/rest/debug/trace",
-//  					url:"rest/debug/trace",
-    					contentType:"application/json",
-    					dataType:"json",
-    					async:true,
-    					data:{
-    						text:sentence
-    					}
-    				}).success(function(data){
-    					var results = data.result;
-    					if(results != void 0){
-    						var times = {};
-    						var totals = 0;
-    						var actionResult = {};
-    						for (var index in results) {
-    							var result = results[index];
-    							// get action name
-    							var name = result.name;
-    							// get start time and end time
-    							var end = result.end
-    							var start = result.start
-    							var cost = end -start;
-    							times[name] = cost;
-    							totals += cost;
-    							//
-    							if(name == 'segment'){
-    								if(result.result != void 0 
-    									&& result.result[0].segment != void 0 
-    									&& result.result[0].segment instanceof Array){
-    									actionResult['segment'] = result.result[0].segment;
-    								}
-    							}else if(name == 'solr'){
-    								if(result.result.response != void 0 
-    									&& result.result.response.docs != void 0 
-    									&& result.result.response.docs instanceof Array){
-    									actionResult['solr'] = result.result.response.docs;
-    								}
-    							}else if(name == 'ranker'){
-    								if(result.result != void 0 
-    									&& result.result instanceof Array){
-    									actionResult['ranker'] = result.result;
-    								}
-    							}else if(name == 'summary'){
-    								if(result.result != void 0 
-    									&& result.result instanceof Array){
-    									actionResult['summary'] = result.result;
-    								}
-    							}
-    						}
-    						var timeArray = [];
-    						var segmentTime = (times.segment != void 0)? times.segment:-1;
-    						var solrTime = (times.solr != void 0)? times.solr:-1;
-    						var rankTime = (times.ranker != void 0)? times.ranker:-1;
-    						var summaryTime = (times.summary != void 0)? times.summary:-1;
-    						timeArray.push(segmentTime);
-    						timeArray.push(solrTime);
-    						timeArray.push(rankTime);
-    						timeArray.push(summaryTime);
-    						// refresh action card
-    						debugTool.refreshActionCards(timeArray);
-    						// refresh chart
-    						debugTool.refreshChartist(timeArray, totals);
-    						// refresh tables
-    						debugTool.refreshTable(actionResult);
-    					}
-    				}).error(function(xhr, status, error){
-    					debugTool.showNotification(4, xhr.statusText,'top','center');
-    				}).always(function(){
-    					$('#pleaseWaitDialog').modal('hide');
-    				});
+    				//判断是否有多个input搜索框，没有就get方式，有就post方式
+    				if(inputSentence == ""){
+		            $.ajax({
+		                type:"get",
+		                url:"http://localhost:5000/rest/debug/trace",
+		//  						url:"rest/debug/trace",
+		                contentType:"application/json",
+		                dataType:"json",
+		                async:true,
+		                data:{
+		                    text:sentence
+		                }
+		            }).success(function(data){
+		                var results = data.result;
+		                if(results != void 0){
+		                    var times = {};
+		                    var totals = 0;
+		                    var actionResult = {};
+		                    for (var index in results) {
+		                        var result = results[index];
+		                        // get action name
+		                        var name = result.name;
+		                        // get start time and end time
+		                        var end = result.end
+		                        var start = result.start
+		                        var cost = end -start;
+		                        times[name] = cost;
+		                        totals += cost;
+		                        //
+		                        if(name == 'segment'){
+		                            if(result.result != void 0
+		                                && result.result[0].segment != void 0
+		                                && result.result[0].segment instanceof Array){
+		                                actionResult['segment'] = result.result[0].segment;
+		                            }
+		                        }else if(name == 'solr'){
+		                            if(result.result.response != void 0
+		                                && result.result.response.docs != void 0
+		                                && result.result.response.docs instanceof Array){
+		                                actionResult['solr'] = result.result.response.docs;
+		                            }
+		                        }else if(name == 'ranker'){
+		                            if(result.result != void 0
+		                                && result.result instanceof Array){
+		                                actionResult['ranker'] = result.result;
+		                            }
+		                        }else if(name == 'summary'){
+		                            if(result.result != void 0
+		                                && result.result instanceof Array){
+		                                actionResult['summary'] = result.result;
+		                            }
+		                        }
+		                    }
+		                    var timeArray = [];
+		                    var segmentTime = (times.segment != void 0)? times.segment:-1;
+		                    var solrTime = (times.solr != void 0)? times.solr:-1;
+		                    var rankTime = (times.ranker != void 0)? times.ranker:-1;
+		                    var summaryTime = (times.summary != void 0)? times.summary:-1;
+		                    timeArray.push(segmentTime);
+		                    timeArray.push(solrTime);
+		                    timeArray.push(rankTime);
+		                    timeArray.push(summaryTime);
+		                    // refresh action card
+		                    debugTool.refreshActionCards(timeArray);
+		                    // refresh chart
+		                    debugTool.refreshChartist(timeArray, totals);
+		                    // refresh tables
+		                    debugTool.refreshTable(actionResult);
+		                    var arr = [];
+		                    $("#summarytable tbody tr").each(function(){
+		                        var td = $(this).find("td");
+		                        arr.push(td.eq(0).text())
+		                    })
+		                    for(var i=0;i<arr.length;i++){
+		                        if(standardSentence == arr[i]){
+		                            var index=i;
+		                            $("#summarytable tbody tr").eq(index).css("background","#8ef3c5");
+		                            return false;
+		                        }else{
+		                            var message="not fonud!";
+		                            debugTool.showNotification(4,message,'top','center');
+		                            return false;
+		                        }
+		                    }
+		
+							/*$("#summarytable").find("td:first").each(function(i) {
+							 var t = $(this).text();
+							 console.log(t);
+							 })*/
+		                }
+		            }).error(function(xhr, status, error){
+		                debugTool.showNotification(4, xhr.statusText,'top','center');
+		            }).always(function(){
+		                $('#pleaseWaitDialog').modal('hide');
+		            });
+    		}else{
+    			 
+    				var arr0=[];
+    				$(".inputList input").each(function(){
+    					  
+                var inputVal= $(this).val();
+                arr0.push(inputVal);
+            })
+    				console.log(arr0);
+    				var data0={
+                    text:sentence,
+                    extended:arr0
+               };
+             var data1=JSON.stringify(data0);  
+            $.ajax({
+                type:"post",
+                url:"http://127.0.0.1:5000/rest/debug/trace",
+								//url:"rest/debug/trace",
+                contentType:"application/json",
+               	dataType:"json",
+                async:true,
+                data:data1
+            }).success(function(data){
+                var results = data.result;
+                if(results != void 0){
+                    var times = {};
+                    var totals = 0;
+                    var actionResult = {};
+                    for (var index in results) {
+                        var result = results[index];
+                        // get action name
+                        var name = result.name;
+                        // get start time and end time
+                        var end = result.end
+                        var start = result.start
+                        var cost = end -start;
+                        times[name] = cost;
+                        totals += cost;
+                        //
+                        if(name == 'segment'){
+                            if(result.result != void 0
+                                && result.result[0].segment != void 0
+                                && result.result[0].segment instanceof Array){
+                                actionResult['segment'] = result.result[0].segment;
+                            }
+                        }else if(name == 'solr'){
+                            if(result.result.response != void 0
+                                && result.result.response.docs != void 0
+                                && result.result.response.docs instanceof Array){
+                                actionResult['solr'] = result.result.response.docs;
+                            }
+                        }else if(name == 'ranker'){
+                            if(result.result != void 0
+                                && result.result instanceof Array){
+                                actionResult['ranker'] = result.result;
+                            }
+                        }else if(name == 'summary'){
+                            if(result.result != void 0
+                                && result.result instanceof Array){
+                                actionResult['summary'] = result.result;
+                            }
+                        }
+                    }
+                    var timeArray = [];
+                    var segmentTime = (times.segment != void 0)? times.segment:-1;
+                    var solrTime = (times.solr != void 0)? times.solr:-1;
+                    var rankTime = (times.ranker != void 0)? times.ranker:-1;
+                    var summaryTime = (times.summary != void 0)? times.summary:-1;
+                    timeArray.push(segmentTime);
+                    timeArray.push(solrTime);
+                    timeArray.push(rankTime);
+                    timeArray.push(summaryTime);
+                    // refresh action card
+                    debugTool.refreshActionCards(timeArray);
+                    // refresh chart
+                    debugTool.refreshChartist(timeArray, totals);
+                    // refresh tables
+                    debugTool.refreshTable(actionResult);
+                    var arr = [];
+                    $("#summarytable tbody tr").each(function(){
+                        var td = $(this).find("td");
+                        arr.push(td.eq(0).text())
+                    })
+                    for(var i=0;i<arr.length;i++){
+                        if(standardSentence == arr[i]){
+                            var index=i;
+                            $("#summarytable tbody tr").eq(index).css("background","#8ef3c5");
+                            return false;
+                        }else{
+                            var message="not fonud!";
+                            debugTool.showNotification(4,message,'top','center');
+                            return false;
+                        }
+                    }
+
+					/*$("#summarytable").find("td:first").each(function(i) {
+					 var t = $(this).text();
+					 console.log(t);
+					 })*/
+                }
+            }).error(function(xhr, status, error){
+                debugTool.showNotification(4, xhr.statusText,'top','center');
+            }).always(function(){
+                $('#pleaseWaitDialog').modal('hide');
+            });
+					}
+
     			}
     		});
     		// button to change table content
@@ -295,7 +449,7 @@ debugTool = {
     showNotification: function(colorIndex, msg, from, align){
 	    	$.notify({
 	        	icon: "ti-volume",
-	        	message: msg
+	        	message: msg,
 	        },{
 	            type: type[colorIndex],
 	            timer: 2000,
@@ -393,7 +547,7 @@ function createTable(/* Array of JSON */ resultArray, /* boolean whether to hidd
 	}
 	var thead = $('<thead>');
 	var tbody = $('<tbody>');
-	// get keys 
+	// get keys create table thead
 	var keys = Object.keys(resultArray[0]);
 	for (var index in keys) {
 		var key = keys[index];
@@ -431,3 +585,4 @@ function convertDicToStr(/*JSON Dictionary*/ dic){
 	});
 	return str;
 }
+

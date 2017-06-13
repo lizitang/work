@@ -213,7 +213,6 @@ hr {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0;
   z-index: 1;
   background-size: cover;
   background-position: center center; }
@@ -278,23 +277,23 @@ hr {
       opacity: 1; }
       .sidebar .nav li.active > a:before,
       .off-canvas-sidebar .nav li.active > a:before {
-        border-left: 17px solid #DDDDDD;
+        border-right: 17px solid #DDDDDD;
         border-top: 17px solid transparent;
         border-bottom: 17px solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
-        left: 0;
+        right: 0;
         top: 8px; }
       .sidebar .nav li.active > a:after,
       .off-canvas-sidebar .nav li.active > a:after {
-        border-left: 17px solid #f4f3ef;
+        border-right: 17px solid #f4f3ef;
         border-top: 17px solid transparent;
         border-bottom: 17px solid transparent;
         content: "";
         display: inline-block;
         position: absolute;
-        left: -1px;
+       right: -1px;
         top: 8px; }
     .sidebar .nav p,
     .off-canvas-sidebar .nav p {
@@ -393,6 +392,7 @@ hr {
   background-color: #f4f3ef;
   position: relative;
   z-index: 2;
+  float: right;
   width: calc(100% - 260px);
   min-height: 100%; }
   .main-panel > .content {
@@ -2400,7 +2400,7 @@ textarea.form-control {
         border-left: 12px solid #DDDDDD;
         border-top: 12px solid transparent;
         border-bottom: 12px solid transparent;
-        right: auto;
+        right:auto;
         margin-left: -15px;
         left: 0px;
         top: 10px; }
@@ -2409,7 +2409,7 @@ textarea.form-control {
         border-left: 12px solid #f4f3ef;
         border-top: 12px solid transparent;
         border-bottom: 12px solid transparent;
-        right: auto;
+        right:auto;
         margin-left: -15px;
         left: -1px;
         top: 10px; }
