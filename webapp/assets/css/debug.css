@@ -1,0 +1,16 @@
+div.bs-modal-sm {
+	height: 100px;
+}
+
+div.table .table-overflow{
+	overflow: auto;
+}
+
+div.datetimepicker {
+	 opacity: 1;
+	 visibility: visible;
+	 display: none;
+}
+
+
+
