@@ -1,0 +1,27 @@
+{
+  "name": "cloud-tag",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --use-strict server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "canvas": "^1.6.5",
+    "cluster": "^0.7.7",
+    "d3": "^4.7.4",
+    "d3-cloud": "^1.2.4",
+    "express": "^4.15.2",
+    "jsdom": "^9.12.0",
+    "lodash": "^4.17.4",
+    "md5": "^2.2.1",
+    "moment": "^2.18.1",
+    "nodemon": "^1.11.0",
+    "superagent": "^3.5.2",
+    "svg2png": "^4.1.1"
+  }
+}
