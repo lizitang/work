@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>echarts</title>
+</head>
+<body>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript" src="echarts.js"></script>
+	 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 300px;height:200px;display: inline-block;"></div>
+    <div id="main2" style="width: 300px;height:200px;display: inline-block;"></div>
+    <script type="text/javascript">
+	    // $.ajax({
+     //         type: "GET",
+     //         url: "test.json",
+     //         data: {username:$("#username").val(), content:$("#content").val()},
+     //         dataType: "json",
+     //         success: function(data){
+     //                     $('#resText').empty();   //清空resText里面的所有内容
+     //                     var html = ''; 
+     //                     $.each(data, function(commentIndex, comment){
+     //                           html += '<div class="comment"><h6>' + comment['username']
+     //                                     + ':</h6><p class="para"' + comment['content']
+     //                                     + '</p></div>';
+     //                     });
+     //                     $('#resText').html(html);
+     //                  }
+     //     });
+	    var data = {
+	    	"title": "2017年6月消费情况",
+	    	"format": "jpeg",
+	    	"width": 300,
+	    	"height": 200,
+	    	"ratio": "3:2",
+	    	"data": [
+	    		{
+	    			"name": "餐饮",
+	    			"val": 0.3
+	    		},
+	    		{
+	    			"name": "旅游",
+	    			"val": 0.4
+	    		},
+	    		{
+	    			"name": "送礼",
+	    			"val": 0.2
+	    		},
+	    		{
+	    			"name": "其他",
+	    			"val": 0.1
+	    		}
+	    	]
+	    }
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var myChart2 = echarts.init(document.getElementById('main2'));
+
+        // 指定图表的配置项和数据
+        myChart.setOption({
+	        series : [
+	            {
+	                name: '访问来源',
+	                type: 'pie',
+	                radius: '55%',
+	                data:[
+	                    {value:data['data'][0]['val'], name:data['data'][0]['name']},
+	                    {value:data['data'][1]['val'], name:data['data'][1]['name']},
+	                    {value:data['data'][2]['val'], name:data['data'][2]['name']},
+	                    {value:data['data'][3]['val'], name:data['data'][3]['name']}
+	                ],
+	                // roseType: 'angle',
+	                // itemStyle: {
+	                //     normal: {
+	                //         shadowBlur: 200,
+	                //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                //     }
+	                // }
+	            }
+	        ]
+		})
+		option = {
+		    color: ['#3398DB'],
+		    tooltip : {
+		        trigger: 'axis',
+		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+		        }
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            data : [data['data'][0]['name'],data['data'][1]['name'],data['data'][2]['name'],data['data'][3]['name']],
+		            axisTick: {
+		                alignWithLabel: true
+		            }
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value'
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'直接访问',
+		            type:'bar',
+		            barWidth: '20%',
+		            data:[data['data'][0]['val'],data['data'][1]['val'],data['data'][2]['val'],data['data'][3]['val']]
+		        }
+		    ]
+		};
+		myChart2.setOption(option)
+		var picBase64Info=myChart.getDataURL();//获取编码
+		var picBase64Info2=myChart2.getDataURL();//获取编码
+		console.log(picBase64Info)
+		console.log(picBase64Info2)
+    </script>
+
+</body>
+</html>

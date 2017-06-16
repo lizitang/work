@@ -182,8 +182,8 @@ debugTool = {
     		});
     		//click plus button,appear input box
     		$("#plusBtn").on("click",function(){
-    			var oInput='<div class="input-group" style="width:100%;margin-bottom:5px;">'+
-									      	'<input type="text" class="form-control plus" style="width:100%" placeholder="Search for..." ">'+
+    			var oInput='<div class="input-group" style="width:100%;border:1px solid rgba(0,0,0,0.3);margin-bottom:5px;">'+
+									      	'<input type="text" class="form-control plus" style="width:100%;" placeholder="Search for..." ">'+
 									      	'<span class="input-group-addon" ><i class="ti-close" style="color:#9a9696;"></i></span>'+
 									    '</div>';
     			$(".row:first .inputList").append(oInput);
