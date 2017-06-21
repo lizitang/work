@@ -52,6 +52,14 @@
 	    		}
 	    	]
 	    }
+	    var chart1data = [];
+	    var chart2name = [];
+	    var chart2val = [];
+	    for(var i = 0;i<data['data'].length;i++){
+	    	chart1data.push({value:data['data'][i]['val'],name:data['data'][i]['name']})
+	    	chart2name.push(data['data'][i]['name'])
+	    	chart2val.push(data['data'][i]['val'])
+	    }
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         var myChart2 = echarts.init(document.getElementById('main2'));
@@ -63,12 +71,13 @@
 	                name: '访问来源',
 	                type: 'pie',
 	                radius: '55%',
-	                data:[
-	                    {value:data['data'][0]['val'], name:data['data'][0]['name']},
-	                    {value:data['data'][1]['val'], name:data['data'][1]['name']},
-	                    {value:data['data'][2]['val'], name:data['data'][2]['name']},
-	                    {value:data['data'][3]['val'], name:data['data'][3]['name']}
-	                ],
+	                data:chart1data,
+	                // [
+	                //     {value:data['data'][0]['val'], name:data['data'][0]['name']},
+	                //     {value:data['data'][1]['val'], name:data['data'][1]['name']},
+	                //     {value:data['data'][2]['val'], name:data['data'][2]['name']},
+	                //     {value:data['data'][3]['val'], name:data['data'][3]['name']}
+	                // ],
 	                // roseType: 'angle',
 	                // itemStyle: {
 	                //     normal: {
@@ -96,7 +105,8 @@
 		    xAxis : [
 		        {
 		            type : 'category',
-		            data : [data['data'][0]['name'],data['data'][1]['name'],data['data'][2]['name'],data['data'][3]['name']],
+		            data : chart2name,
+		            // [data['data'][0]['name'],data['data'][1]['name'],data['data'][2]['name'],data['data'][3]['name']],
 		            axisTick: {
 		                alignWithLabel: true
 		            }
@@ -112,7 +122,8 @@
 		            name:'直接访问',
 		            type:'bar',
 		            barWidth: '20%',
-		            data:[data['data'][0]['val'],data['data'][1]['val'],data['data'][2]['val'],data['data'][3]['val']]
+		            data:chart2val,
+		            // [data['data'][0]['val'],data['data'][1]['val'],data['data'][2]['val'],data['data'][3]['val']]
 		        }
 		    ]
 		};
@@ -122,6 +133,5 @@
 		console.log(picBase64Info)
 		console.log(picBase64Info2)
     </script>
-
 </body>
 </html>
