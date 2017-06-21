@@ -1,24 +1,75 @@
 $(function(){
-  var head = ["标准问题","答案","标签","操作"]
-  var widthclass = ["col-sm-2","col-sm-4","col-sm-4","col-sm-2"]
+  var heads = ["编号","标准问题","答案","标签","操作"];
+  var widthclass = ["col-sm-1","col-sm-1","col-sm-6","col-sm-2","col-sm-2"];
   var currentpage = 1,totalsq=123,perpagesq = 10,totalpage = parseInt(Math.ceil(totalsq/perpagesq));
+  var results;
+  var tableArea=$('.table-responsive');
+  var table;
   $.ajax({
      type: "GET",
-     url: "http://192.168.2.89:8080/operation-tool/rest/faq/query?tags=%E4%BF%A1%E7%94%A8%E5%8D%A1,%E5%80%9F%E8%AE%B0%E5%8D%A1&operator=or&page_num=1&page_size=5",
+     url: "http://192.168.2.89:8080/operation-tool/rest/faq/query?tags=信用卡,借记卡&operator=or&page_num=1&page_size=5",
      data: {},
      dataType: "json",
      success: function(data){
-                 console.log(data)
-              }
+     	
+                results=data.faqs;
+                for(var index in results){
+                		for(var i in results[index]){
+                			
+                		}
+                }
+               	table=createTable(results,heads,widthclass);
+               	tableArea.append(table);
+               	var lastHtml='<td>'+
+               								'<span style="" class="badge cance">取消</span>'+
+                            	'<span style="" class="badge sav">保存</span>'+
+                            	'<span style="" class="badge ad">添加</span>'+
+                            	'</td>';
+               	$('table tr').append(lastHtml);
+            }
   });
-  function creatTable(head,widthclass){
-    $.each(head,function(index,val){
-      $('thead tr').append('<th>');
-      $("thead tr th").last().html(val);
-      $("thead tr th").last().addClass(widthclass[index])
-    })
+  function createTable( resultArray,heads,widthclass){
+  	table=$('<table>');
+  	table.addClass('table table-striped');
+  	var thead=$('<thead>');
+  	var tbody = $('<tbody>');
+  	for(var index in heads){
+  		var head=heads[index];
+  		var th=$('<th>');
+  		th.addClass(widthclass[index]);
+  		th.text(head);
+  		thead.append(th);
+  		
+  	}
+  	
+  	// create table rows
+			
+		for (var idx in resultArray) {
+				var tr = $('<tr>');
+				for(var i in resultArray[idx]){
+						var td = $('<td>');
+						if(i == 'tags'){
+							 var span='<span class="badge"> '+resultArray[idx][i]+'<i class="glyphicon glyphicon-remove-circle labe">'+
+							 '</i>'+
+							 '</span>';
+							 td.append(span);
+						}else{
+							td.text(resultArray[idx][i]);
+						}
+						
+						tr.append(td);
+				}
+				
+				tbody.append(tr);
+		}
+		
+		table.append(thead);
+		table.append(tbody);
+		return table;
   }
-  creatTable(head,widthclass);
+ 
+  
+  
   //删除标签
   $(document).on("click",".labe",function(){
     $(this).parent().hide()

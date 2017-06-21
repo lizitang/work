@@ -119,6 +119,7 @@ debugTool = {
 	    					eValue = convertDicToStr(data.config.solr);
 	    				}else if(source == 'ranker'){
 	    					var keys = Object.keys(data.config);
+	    					
 	    					$.each(keys, function(index, key) {
 	    						// not segment and solr
 	    						if(key != 'segment' && key != 'solr'){
@@ -549,6 +550,7 @@ function createTable(/* Array of JSON */ resultArray, /* boolean whether to hidd
 	var tbody = $('<tbody>');
 	// get keys create table thead
 	var keys = Object.keys(resultArray[0]);
+	console.log(keys);
 	for (var index in keys) {
 		var key = keys[index];
 		var th = $('<th>');

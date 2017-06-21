@@ -74,6 +74,9 @@
 .main-panel > .content{
 	padding-top: 0px;
 }
+.badge{
+	cursor: pointer;
+}
 /*.pagination{
 	margin:0 auto;
 	display: block;
