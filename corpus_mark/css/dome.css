@@ -1,0 +1,47 @@
+
+*{
+    margin:0px auto;	
+ }
+.box{
+	margin-top:200px;
+	width:100%;
+	height:600px;
+	background:url(../img/hr_login.png) no-repeat center;
+    padding-top:30px;
+    position:relative;
+}
+.cnt{
+	width:380px;
+	height:400px;
+	background:#fff;
+	padding:40px 40px 40px 40px;
+	position: absolute;
+	right:280px;
+	top:40px; 
+ }
+ 
+ #cnt_one{
+	 
+	color:#000;
+	font-size:20px; 
+	font-weight:600;
+	padding-right:120px;
+	
+}
+
+ #cnt_two{
+	color:blue;
+	font-size:18px;
+	padding-left:50px;
+	
+ }
+ 
+ #huanying{
+	padding-bottom:10px; 
+ }
+ 
+ #oimg{
+	 padding-left:30px;
+ }
+
+ @media
