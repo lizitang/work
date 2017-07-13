@@ -1,0 +1,25 @@
+/*@media (min-width: 1700px)
+	.container {
+    width: 1500px;
+	}
+}
+@media (min-width: 1900px)
+	.container {
+    width: 1700px;
+    }
+}*/
+#header{
+	padding: 20px;
+}
+.card{
+	border: 1px solid #eee;
+	border-radius: 5px;
+}
+.label{
+	margin-right:3px;
+	margin-top:10px;
+	cursor: pointer;
+}
+.active{
+	background-color: gray;
+}
