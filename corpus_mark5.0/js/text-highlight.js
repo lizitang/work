@@ -18,10 +18,10 @@
 	        	cs = tc.substring(0, anchorOffset),
 	        	cm = tc.substring(anchorOffset, focusOffset),
 	        	ce = tc.substring(focusOffset),
-	        	newTc = cs+'<span class="light" style="background:yellow">'+ cm+'</span>'+ce;
-	        $(anchorNode).replaceWith(newTc);	      
+	        	newTc = cs+'<span style="background:yellow">'+ cm+'</span>'+ce;
+	        $(anchorNode).replaceWith(newTc);	//////////////////	      
 	    } 
-	    /*// 跨标签高亮
+	    // 跨标签高亮
 	    else {
 	    	
 	    	// 分别获取 anchorNode 和 focusNode 祖先节点
@@ -68,26 +68,26 @@
 	        var tcA = anchorNode.textContent,
 	        	csA = tcA.substring(0,anchorOffset),
 	        	ceA = tcA.substring(anchorOffset),
-	        	newTcA = csA + '<span class="light" style="background:yellow">' + ceA + '</span>';
+	        	newTcA = csA + '<span style="background:yellow">' + ceA + '</span>';
 	        $(anchorNode).replaceWith(newTcA);
 
 	        // 对 focusNode 进行高亮
 	        var tcF = focusNode.textContent,
 	        	csF = tcF.substring(0,focusOffset),
 	        	ceF = tcF.substring(focusOffset),
-	        	newTcF = '<span class="light" style="background:yellow">' + csF + '</span>' + ceF;   
+	        	newTcF = '<span style="background:yellow">' + csF + '</span>' + ceF;   
 	        $(focusNode).replaceWith(newTcF);
 	        
 	        // 跨标签高亮时需要手动取消焦点。。。为什么啊啊啊啊 
 	        // bug： 选行数很多时 mouseup 之后不执行 textHight() - -||||
 	        $('#key').focus();
-	    }*/
+	    }
 
 	}
 
 
 	// 获取一个节点的所有祖先节点
-	/*function findAncestorNodes(node) {
+	function findAncestorNodes(node) {
 	    var ancestors = [];
 	    var cursor = node;
 	    ancestors.push(cursor);
@@ -97,36 +97,35 @@
 	        ancestors.push(cursor);
 	    }
 	    return ancestors;
-	}*/
+	}
 
 	// 将一个节点及其所有右侧兄弟节点进行高亮
-	/*function highlightRightSiblings(node) {
+	function highlightRightSiblings(node) {
 	    highLightNode(node); 
 	    if (!node.nextSibling) {
 	        return;
 	    } else {
 	        highlightRightSiblings(node.nextSibling);
 	    }        
-	}*/
+	}
 
 	// 将一个节点及其所有左侧兄弟节点进行高亮
-	// function highlightLeftSiblings(node) {
-	//     highLightNode(node);    
-	//     if (!node.previousSibling) {
-	//         return;
-	//     } else {
-	//         highlightLeftSiblings(node.previousSibling);
-	//     }        
-	// }
+	function highlightLeftSiblings(node) {
+	    highLightNode(node);    
+	    if (!node.previousSibling) {
+	        return;
+	    } else {
+	        highlightLeftSiblings(node.previousSibling);
+	    }        
+	}
 
 	// 高亮节点的递归实现，如果是文本节点则直接高亮，如果是元素节点则将其所有文本子节点进行高亮
-/*	function highLightNode(node) {
+	function highLightNode(node) {
 	    if (node.nodeType == 3 && 
 	        /[^\n\r\s]/.test(node.nodeValue) &&	// 排除所有只包含回车、换行或空格的文本呢节点
 	        node != anchorNode &&
 	        node != focusNode) {
 	        var span = document.createElement('span');
-	    	span.className="light";
 	        span.style.background = 'yellow';
 	        $(node).wrap($(span));
 	    }
@@ -138,7 +137,7 @@
 	            }
 	        }
 	    }
-	}*/
+	}
 
 	window.TextHighlight = TextHighlight;
 

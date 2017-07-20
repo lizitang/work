@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>workspace</title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<link rel="stylesheet" href="css/corpus_mark_table.css">
+</head>
+<body>
+	<div id = "header" class="container">
+		<span>标注对话:</span><input class = "btn" type="file" name="file" id="file" style = "display: inline-block;">
+		<span>已标注数据:</span><input class = "btn" type="file" name="file" id="mark" style = "display: inline-block;">
+	</div>
+	<div class="container">
+		<div class="col-md-12">
+	        <div class="card">
+	            <div class="content table-responsive table-full-width">
+		            <table class="table table-striped" id = "table">
+			            <thead>
+				            <tr>
+				            </tr>
+			            </thead>
+			            <tbody>
+				            
+			            </tbody>
+		            </table>
+	            </div>
+	        </div>
+	    </div>
+        <ul id="myMenu" style="position:absolute;visibility:hidden;list-style:none;">
+            <li class = "highlight">高亮</li>
+        </ul>
+	 
+		<button type="button" class = "btn" id = "excl">导出标注数据</button>
+	</div>
+	<div class="pop-up-box" style = "display: none;">
+		<div class="pop-up-boxCenter">
+			<div class="tab">
+				<span class="tab1">修改内容</span>
+				<span class="tab2">添加标签</span>
+			</div>
+			<div class="pop-up-boxContent">
+				<div class="contentCenter"></div>
+				<div class="contentCenter2" style = "display: none;"></div>
+				<button type="button" class="sav btn btn-success btn-xs" style="float:right;margin: 5px;">保存</button>
+				<button type="button" class="cance btn btn-danger btn-xs" style="float:right;margin: 5px;">取消</button>
+			</div>
+		</div>
+	</div>
+	<script src = "label.json"></script>
+	<!-- jQuery (Bootstrap 插件需要引入) -->
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<!-- 包含了所有编译插件 -->
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/corpus_mark_table.js"></script>
+</body>
+</html>
