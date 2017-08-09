@@ -119,7 +119,7 @@ $(function(){
 		 	    	location.reload()
 		 	    }
 		 	  };
-		 	  reader.readAsText(markfile,'UTF-8');
+		 	  reader.readAsText(markfile,'gb2312');
 		 	};
  	document.getElementById('file').onchange = function(){
 
@@ -256,14 +256,7 @@ $(function(){
 				
 				
 
-				//取消高亮
-				$(document).on('click','.yellow',function(){
-				/*	$(this).replace(/\/,'');*/
-				 	console.log($(this).prop('outerHTML'));
-				 	var cancelText=$(this).prop('outerHTML').replace(/<.*?>/ig,"");
-				 	$(this).replaceWith(cancelText);
-
-			 	})
+				
 			})
 			$(document).on("click",'.sav',function(){
 	 	  		keyNumber = rightEle.parent().parent().prev().children().first().html()
@@ -317,7 +310,16 @@ $(function(){
 				$(this).parent().remove()
 			})
 			$(document).on("click",'.cance',function(){
-				$(".pop-up-box").hide()
+				$(".pop-up-box").hide();
+				keyNumber = rightEle.parent().parent().prev().children().first().html();
+				var wlen = rightEle.children().length;
+				var wthat_ = rightEle.find('div.dialog')[sentenceNum-1];
+				var wthat = $(wthat_).find('span');
+				var wthatOuter=wthat.prop('outerHTML');
+				wthatText = wthatOuter.replace(/<.*?>/ig,"");
+				wthat.replaceWith(wthatText);	
+				
+				
 			})
 
 
